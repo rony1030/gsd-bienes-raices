@@ -38,6 +38,21 @@ export function Brand() {
     </span>
   );
 }
+export function GroupNavigation() {
+  return (
+    <div className="group-bar">
+      <div className="group-bar-inner">
+        <span>GRUPO GSD</span>
+        <nav aria-label="Empresas del grupo">
+          <a href="https://gsd-nine-drab.vercel.app/">GSD Principal</a>
+          <span>GSD Legal <small>Próximamente</small></span>
+          <span>GSD Agrimensura <small>Próximamente</small></span>
+          <span>GSD Consultoría <small>Próximamente</small></span>
+        </nav>
+      </div>
+    </div>
+  );
+}
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
