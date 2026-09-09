@@ -21,7 +21,7 @@ import {
   Check,
   Send,
   SlidersHorizontal,
-  MessageCircle,
+  PhoneCall,
 } from "lucide-react";
 import { photos } from "@/lib/demo.mjs";
 
@@ -140,7 +140,7 @@ export function WhatsAppButton() {
       aria-label="Escribir por WhatsApp"
       title="Escribir por WhatsApp"
     >
-      <MessageCircle size={24} strokeWidth={2.2} />
+      <PhoneCall size={22} strokeWidth={2.25} />
       <span>WhatsApp</span>
     </a>
   );

@@ -283,7 +283,10 @@ export default async function Home() {
         </Reveal>
         <a className="contact-callout" href="tel:+18097828828">
           <span className="contact-callout-icon"><ArrowUpRight size={20} /></span>
-          <span>Hablemos hoy <strong>809 782 8828</strong></span>
+          <span className="contact-callout-copy">
+            <small>Habla con un asesor</small>
+            <strong>809 782 8828</strong>
+          </span>
         </a>
       </section>
       <section className="instagram section" aria-label="Instagram">
