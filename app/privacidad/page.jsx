@@ -14,12 +14,6 @@ export default function Privacy() {
         ponen a disposición del equipo autorizado a través del CRM de GSD. No
         solicitamos documentos de identidad ni datos bancarios en este sitio.
       </p>
-      <h2>Favoritos</h2>
-      <p>
-        Las propiedades guardadas se conservan únicamente en el navegador de tu
-        dispositivo. Puedes eliminarlas pulsando nuevamente el corazón de cada
-        propiedad.
-      </p>
       <h2>Consultas sobre tus datos</h2>
       <p>
         Puedes solicitar información, corrección o eliminación de tu consulta

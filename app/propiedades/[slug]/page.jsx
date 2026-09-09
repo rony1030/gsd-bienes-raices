@@ -16,7 +16,7 @@ import {
   House,
 } from "lucide-react";
 import { getProperties } from "@/lib/db.mjs";
-import { Gallery, ContactForm, Favorite, money } from "@/components/site";
+import { Gallery, ContactForm, money } from "@/components/site";
 export const dynamic = "force-dynamic";
 const amenityIcons = {
   Jardín: Trees,
@@ -53,7 +53,6 @@ export default async function Property({ params }) {
             {p.location}, República Dominicana
           </p>
         </div>
-        <Favorite id={p.id} />
       </div>
       <div className="detail-layout">
         <div>

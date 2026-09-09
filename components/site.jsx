@@ -9,7 +9,6 @@ import {
   ArrowUp,
   Menu,
   X,
-  Heart,
   BedDouble,
   Bath,
   Maximize,
@@ -54,19 +53,13 @@ export function Header() {
         <Link onClick={() => setOpen(false)} href="/propiedades">
           Propiedades
         </Link>
-        <Link onClick={() => setOpen(false)} href="/#destinos">
+        <Link onClick={() => setOpen(false)} href="/destinos">
           Destinos
         </Link>
-        <Link onClick={() => setOpen(false)} href="/#nosotros">
+        <Link onClick={() => setOpen(false)} href="/nosotros">
           Nosotros
         </Link>
-        <Link
-          onClick={() => setOpen(false)}
-          href="/propiedades?favoritos=1"
-          className="nav-favorite"
-        >
-          <Heart size={17} /> Favoritos
-        </Link>
+        <Link onClick={() => setOpen(false)} href="/blog">Blog</Link>
         <Link
           onClick={() => setOpen(false)}
           href="/#contacto"
@@ -106,8 +99,9 @@ export function Footer() {
         <div>
           <span className="eyebrow">EXPLORA</span>
           <Link href="/propiedades">Propiedades</Link>
-          <Link href="/#destinos">Nuestros destinos</Link>
-          <Link href="/#contacto">Contacto</Link>
+          <Link href="/destinos">Nuestros destinos</Link>
+          <Link href="/nosotros">Nosotros</Link>
+          <Link href="/blog">Blog</Link>
         </div>
         <div>
           <span className="eyebrow">SOMOS GSD</span>
@@ -407,38 +401,6 @@ export const money = (p) =>
   `${p.currency === "DOP" ? "RD$" : "US$"}${new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
   }).format(p.price)}`;
-export function Favorite({ id }) {
-  const [saved, setSaved] = useState(false);
-  useEffect(() => {
-    try {
-      setSaved(
-        JSON.parse(localStorage.getItem("gsd-favorites") || "[]").includes(id),
-      );
-    } catch {}
-  }, [id]);
-  function toggle() {
-    try {
-      const ids = JSON.parse(localStorage.getItem("gsd-favorites") || "[]");
-      const next = saved
-        ? ids.filter((x) => x !== id)
-        : [...new Set([...ids, id])];
-      localStorage.setItem("gsd-favorites", JSON.stringify(next));
-      setSaved(!saved);
-      window.dispatchEvent(new Event("gsd-favorites"));
-    } catch {}
-  }
-  return (
-    <button
-      className={`icon favorite ${saved ? "saved" : ""}`}
-      title={saved ? "Quitar de favoritos" : "Guardar propiedad"}
-      aria-label={saved ? "Quitar de favoritos" : "Guardar propiedad"}
-      aria-pressed={saved}
-      onClick={toggle}
-    >
-      <Heart size={19} fill={saved ? "currentColor" : "none"} />
-    </button>
-  );
-}
 export function PropertyCard({ property: p }) {
   return (
     <article className="property-card">
@@ -453,7 +415,6 @@ export function PropertyCard({ property: p }) {
           />
         </Link>
         <span className="tag">{p.operation}</span>
-        <Favorite id={p.id} />
         {p.demo && <span className="demo-tag">Proyecto de muestra</span>}
       </div>
       <div className="property-heading">
@@ -496,26 +457,13 @@ export function Catalog({ properties, initial = {} }) {
     [location, setLocation] = useState(initial.ubicacion || ""),
     [type, setType] = useState(initial.tipo || ""),
     [operation, setOperation] = useState(initial.operacion || ""),
-    [sort, setSort] = useState("featured"),
-    [onlySaved, setOnlySaved] = useState(initial.favoritos === "1"),
-    [saved, setSaved] = useState([]);
-  useEffect(() => {
-    const read = () => {
-      try {
-        setSaved(JSON.parse(localStorage.getItem("gsd-favorites") || "[]"));
-      } catch {}
-    };
-    read();
-    window.addEventListener("gsd-favorites", read);
-    return () => window.removeEventListener("gsd-favorites", read);
-  }, []);
+    [sort, setSort] = useState("featured");
   const filtered = properties
     .filter(
       (p) =>
         (!location || p.location === location) &&
         (!type || p.type === type) &&
         (!operation || p.operation === operation) &&
-        (!onlySaved || saved.includes(p.id)) &&
         `${p.title} ${p.location}`
           .toLocaleLowerCase()
           .includes(query.toLocaleLowerCase()),
@@ -532,7 +480,6 @@ export function Catalog({ properties, initial = {} }) {
     setLocation("");
     setType("");
     setOperation("");
-    setOnlySaved(false);
   };
   return (
     <>
@@ -575,15 +522,6 @@ export function Catalog({ properties, initial = {} }) {
           <option>Venta</option>
           <option>Alquiler</option>
         </select>
-        <button
-          className={`icon ${onlySaved ? "selected" : ""}`}
-          title="Solo favoritos"
-          aria-label="Solo favoritos"
-          aria-pressed={onlySaved}
-          onClick={() => setOnlySaved(!onlySaved)}
-        >
-          <Heart size={19} />
-        </button>
       </div>
       <div className="result-toolbar">
         <span aria-live="polite">{filtered.length} {filtered.length === 1 ? 'propiedad' : 'propiedades'}</span>

@@ -72,7 +72,7 @@ export default async function Home() {
           ilustrativos.
         </p>
       </section>
-      <section className="experience" id="nosotros">
+      <section className="experience">
         <Image
           src={photos.interior}
           alt="Sala abierta y luminosa, fotografía de referencia"
@@ -116,7 +116,7 @@ export default async function Home() {
           detail="Una conversación para empezar a encontrar tu lugar."
         />
       </section>
-      <section className="section container destinations" id="destinos">
+      <section className="section container destinations">
         <Reveal className="section-heading">
           <div>
             <span className="eyebrow">UNA ISLA. MUCHAS POSIBILIDADES.</span>
@@ -152,7 +152,7 @@ export default async function Home() {
           ].map((d, i) => (
             <Link
               key={d.name}
-              href={`/propiedades?ubicacion=${encodeURIComponent(d.name)}`}
+              href={`/destinos#${d.name.toLowerCase().replaceAll(" ", "-")}`}
               className="destination"
             >
               <Image
