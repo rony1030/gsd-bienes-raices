@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -16,6 +16,7 @@ import {
   Search,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Check,
   Send,
   SlidersHorizontal,
@@ -240,36 +241,100 @@ export function Hero() {
     </section>
   );
 }
+function SearchMenu({ name, label, options, defaultValue = "" }) {
+  const [value, setValue] = useState(defaultValue);
+  const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+  const menuId = useId();
+  const selected = options.find((option) => option.value === value) || options[0];
+
+  useEffect(() => {
+    function closeOnOutsideClick(event) {
+      if (!menuRef.current?.contains(event.target)) setOpen(false);
+    }
+    function closeOnEscape(event) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
+
+  return (
+    <div className="search-menu" ref={menuRef}>
+      <input type="hidden" name={name} value={value} />
+      <span className="search-label">{label}</span>
+      <button
+        type="button"
+        className="search-trigger"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={menuId}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span>{selected.label}</span>
+        <ChevronDown size={18} aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="search-options" id={menuId} role="listbox" aria-label={label}>
+          {options.map((option) => {
+            const isSelected = value === option.value;
+            return (
+              <button
+                key={option.value || "all"}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                className={isSelected ? "selected" : ""}
+                onClick={() => {
+                  setValue(option.value);
+                  setOpen(false);
+                }}
+              >
+                <span>{option.label}</span>
+                {isSelected && <Check size={16} aria-hidden="true" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SearchBar() {
   return (
     <form action="/propiedades" className="search-bar">
-      <label>
-        QUIERO
-        <select name="operacion" defaultValue="Venta">
-          <option>Venta</option>
-          <option>Alquiler</option>
-        </select>
-      </label>
-      <label>
-        DESTINO
-        <select name="ubicacion">
-          <option value="">Todos los destinos</option>
-          {["Punta Cana", "Samaná", "Puerto Plata", "Santo Domingo"].map(
-            (x) => (
-              <option key={x}>{x}</option>
-            ),
-          )}
-        </select>
-      </label>
-      <label>
-        TIPO DE PROPIEDAD
-        <select name="tipo">
-          <option value="">Todos los espacios</option>
-          {["Apartamento", "Casa", "Villa"].map((x) => (
-            <option key={x}>{x}</option>
-          ))}
-        </select>
-      </label>
+      <SearchMenu
+        name="operacion"
+        label="QUIERO"
+        defaultValue="Venta"
+        options={[
+          { value: "Venta", label: "Venta" },
+          { value: "Alquiler", label: "Alquiler" },
+        ]}
+      />
+      <SearchMenu
+        name="ubicacion"
+        label="DESTINO"
+        options={[
+          { value: "", label: "Todos los destinos" },
+          ...["Punta Cana", "Samaná", "Puerto Plata", "Santo Domingo"].map(
+            (value) => ({ value, label: value }),
+          ),
+        ]}
+      />
+      <SearchMenu
+        name="tipo"
+        label="TIPO DE PROPIEDAD"
+        options={[
+          { value: "", label: "Todos los espacios" },
+          ...["Apartamento", "Casa", "Villa"].map((value) => ({ value, label: value })),
+        ]}
+      />
       <button className="button dark" type="submit">
         <Search size={18} /> Encontrar mi lugar
       </button>
