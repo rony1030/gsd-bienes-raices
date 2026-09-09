@@ -97,9 +97,7 @@ export default async function Property({ params }) {
               : "ALQUILER MENSUAL DE REFERENCIA"}
           </span>
           <div className="detail-price">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: p.currency,
+            {p.currency === "DOP" ? "RD$" : "US$"}{new Intl.NumberFormat("en-US", {
               maximumFractionDigits: 0,
             }).format(p.price)}
           </div>

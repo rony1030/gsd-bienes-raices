@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   ArrowRight,
   ArrowDown,
+  ArrowUp,
   Menu,
   X,
   Heart,
@@ -20,6 +21,7 @@ import {
   Check,
   Send,
   SlidersHorizontal,
+  MessageCircle,
 } from "lucide-react";
 import { photos } from "@/lib/demo.mjs";
 
@@ -48,6 +50,7 @@ export function Header() {
         aria-label="Navegación principal"
         className={open ? "nav open" : "nav"}
       >
+        <span className="nav-mobile-title">Explora GSD</span>
         <Link onClick={() => setOpen(false)} href="/propiedades">
           Propiedades
         </Link>
@@ -86,6 +89,9 @@ export function Header() {
 export function Footer() {
   return (
     <footer>
+      <a className="footer-scroll" href="#contenido" aria-label="Volver al inicio" title="Volver al inicio">
+        <ArrowUp size={24} strokeWidth={2.4} />
+      </a>
       <div className="footer-main">
         <div>
           <Link href="/">
@@ -120,11 +126,67 @@ export function Footer() {
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} GSD Bienes Raíces</span>
         <span>Una nueva forma de encontrar tu lugar.</span>
-        <a href="#contenido" aria-label="Volver arriba">
-          <ArrowUpRight size={20} />
-        </a>
       </div>
     </footer>
+  );
+}
+export function WhatsAppButton() {
+  return (
+    <a
+      className="whatsapp-float"
+      href="https://wa.me/18097828828?text=Hola%20GSD%2C%20quiero%20recibir%20informaci%C3%B3n%20sobre%20Bienes%20Ra%C3%ADces."
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Escribir por WhatsApp"
+      title="Escribir por WhatsApp"
+    >
+      <MessageCircle size={24} strokeWidth={2.2} />
+      <span>WhatsApp</span>
+    </a>
+  );
+}
+export function CountUp({ value, suffix = "", label, detail }) {
+  const ref = useRef(null);
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    const element = ref.current;
+    let frame;
+    let started = false;
+    const showValue = () => {
+      if (started) return;
+      started = true;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setDisplay(value);
+        return;
+      }
+      const startedAt = performance.now();
+      const duration = 1200;
+      const tick = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setDisplay(Math.round(value * eased));
+        if (progress < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        showValue();
+        observer.disconnect();
+      }
+    }, { threshold: 0.45 });
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value]);
+  return (
+    <article className="metric" ref={ref}>
+      <strong>{display}<small>{suffix}</small></strong>
+      <h3>{label}</h3>
+      <p>{detail}</p>
+    </article>
   );
 }
 export function Reveal({ children, className = "" }) {
@@ -342,11 +404,9 @@ export function SearchBar() {
   );
 }
 export const money = (p) =>
-  new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: p.currency,
+  `${p.currency === "DOP" ? "RD$" : "US$"}${new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
-  }).format(p.price);
+  }).format(p.price)}`;
 export function Favorite({ id }) {
   const [saved, setSaved] = useState(false);
   useEffect(() => {

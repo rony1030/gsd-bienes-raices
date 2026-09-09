@@ -7,6 +7,8 @@ import {
   Compass,
   ShieldCheck,
   KeyRound,
+  Armchair,
+  CalendarCheck,
 } from "lucide-react";
 import {
   Hero,
@@ -14,6 +16,7 @@ import {
   PropertyCard,
   ContactForm,
   Reveal,
+  CountUp,
 } from "@/components/site";
 import { getProperties } from "@/lib/db.mjs";
 import { photos } from "@/lib/demo.mjs";
@@ -96,6 +99,23 @@ export default async function Home() {
           GSD BIENES RAÍCES / REPÚBLICA DOMINICANA
         </span>
       </section>
+      <section className="metrics container" aria-label="GSD en números">
+        <CountUp
+          value={4}
+          label="destinos para explorar"
+          detail="Del ritmo de Santo Domingo a la calma de Samaná."
+        />
+        <CountUp
+          value={6}
+          label="espacios de demostración"
+          detail="Apartamentos, casas y villas para descubrir con calma."
+        />
+        <CountUp
+          value={1}
+          label="equipo a tu lado"
+          detail="Una conversación para empezar a encontrar tu lugar."
+        />
+      </section>
       <section className="section container destinations" id="destinos">
         <Reveal className="section-heading">
           <div>
@@ -153,6 +173,47 @@ export default async function Home() {
           ))}
         </div>
       </section>
+      <section className="moments section container">
+        <Reveal className="section-heading moments-heading">
+          <div>
+            <span className="eyebrow">CADA ESPACIO CUENTA UNA HISTORIA</span>
+            <h2>Descubre a tu manera.</h2>
+          </div>
+          <p>Primero lo ves. Después empiezas a imaginar tu vida ahí.</p>
+        </Reveal>
+        <div className="moment-grid">
+          <Reveal className="moment-media">
+            <Image
+              src={photos.home}
+              alt="Interior residencial luminoso, fotografía de referencia"
+              fill
+              sizes="(max-width: 800px) 100vw, 50vw"
+            />
+            <span className="moment-icon"><Armchair size={30} /></span>
+          </Reveal>
+          <Reveal className="moment-copy">
+            <span className="eyebrow">MIRA CON CALMA</span>
+            <h3>Los detalles hacen que un lugar se sienta <em>tuyo.</em></h3>
+            <p>Recorre la luz, los acabados y el ritmo de cada propiedad antes de coordinar una visita.</p>
+            <Link href="/propiedades" className="text-link">Explorar espacios <ArrowUpRight size={19} /></Link>
+          </Reveal>
+          <Reveal className="moment-copy second">
+            <span className="eyebrow">DA EL SIGUIENTE PASO</span>
+            <h3>Cuando un espacio conecta, la visita se vuelve <em>natural.</em></h3>
+            <p>Cuéntanos qué buscas y te ayudaremos a descubrir los proyectos que encajan contigo.</p>
+            <Link href="/#contacto" className="text-link">Hablar con GSD <ArrowUpRight size={19} /></Link>
+          </Reveal>
+          <Reveal className="moment-media second">
+            <Image
+              src={photos.interior}
+              alt="Espacio residencial de referencia para disfrutar"
+              fill
+              sizes="(max-width: 800px) 100vw, 50vw"
+            />
+            <span className="moment-icon"><CalendarCheck size={30} /></span>
+          </Reveal>
+        </div>
+      </section>
       <section className="values section">
         <div className="container">
           <Reveal className="section-heading">
@@ -196,8 +257,10 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="section container contact" id="contacto">
-        <Reveal>
+      <section className="contact-panel container" id="contacto">
+        <Image src={photos.villa} alt="Villa de referencia rodeada de naturaleza" fill sizes="100vw" />
+        <div className="contact-panel-shade" />
+        <Reveal className="contact-panel-copy">
           <span className="eyebrow">
             <i /> CONVERSEMOS
           </span>
@@ -215,9 +278,28 @@ export default async function Home() {
           </p>
           <MoveUpRight size={62} strokeWidth={1} />
         </Reveal>
-        <Reveal>
+        <Reveal className="contact-panel-form">
           <ContactForm />
         </Reveal>
+        <a className="contact-callout" href="tel:+18097828828">
+          <span className="contact-callout-icon"><ArrowUpRight size={20} /></span>
+          <span>Hablemos hoy <strong>809 782 8828</strong></span>
+        </a>
+      </section>
+      <section className="instagram section" aria-label="Instagram">
+        <div className="container">
+          <Reveal className="instagram-heading">
+            <div><span className="eyebrow">INSPIRACIÓN GSD</span><h2>Instagram</h2></div>
+            <a className="text-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer">@GSD <ArrowUpRight size={19} /></a>
+          </Reveal>
+          <div className="instagram-grid">
+            {[photos.hero, photos.apartment, photos.villa, photos.home].map((image, index) => (
+              <Reveal className="instagram-post" key={image}>
+                <Image src={image} alt={`Inspiración inmobiliaria GSD ${index + 1}`} fill sizes="(max-width: 700px) 50vw, 25vw" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </section>
       <section className="container faq">
         <span className="eyebrow">ANTES DE DAR EL PASO</span>
