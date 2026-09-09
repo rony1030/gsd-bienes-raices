@@ -42,7 +42,7 @@ export function Brand() {
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="header">
+    <header className={open ? "header menu-open" : "header"}>
       <Link href="/" aria-label="GSD Bienes Raíces, inicio">
         <Brand />
       </Link>
