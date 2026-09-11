@@ -430,6 +430,8 @@ export function PropertyCard({ property: p }) {
           />
         </Link>
         <span className="tag">{p.operation}</span>
+        {p.amenities?.includes("Ley CONFOTUR") && <span className="tag confotur-tag" style={{ background: "#1B3A6B", color: "#fff", marginLeft: "6px" }}>CONFOTUR</span>}
+        {p.amenities?.includes("Expediente Auditado GSD") && <span className="tag verified-tag" style={{ background: "#5B9E3F", color: "#fff", marginLeft: "6px" }}>Expediente Auditado</span>}
         {p.demo && <span className="demo-tag">Proyecto de muestra</span>}
       </div>
       <div className="property-heading">

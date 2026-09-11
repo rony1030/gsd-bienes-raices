@@ -218,31 +218,31 @@ export default async function Home() {
         <div className="container">
           <Reveal className="section-heading">
             <div>
-              <span className="eyebrow">CONTIGO, EN CADA PASO</span>
-              <h2>Encontrar es solo el comienzo.</h2>
+              <span className="eyebrow">EL DIFERENCIAL GSD</span>
+              <h2>Bienes raíces con respaldo legal y técnico.</h2>
             </div>
             <p>
-              El respaldo de Geosolutions Source Dominicana,
+              Operamos como el brazo inmobiliario de una firma jurídica y de agrimensura.
               <br />
-              ahora en tu próxima decisión inmobiliaria.
+              Transacciones transparentes, protegidas y sin sorpresas.
             </p>
           </Reveal>
           <div className="value-grid">
             {[
               {
-                icon: Compass,
-                title: "Entendemos tu búsqueda",
-                text: "Empezamos escuchándote. Tu estilo de vida, tus planes y lo que de verdad importa para ti.",
+                icon: ShieldCheck,
+                title: "GSD Property Check",
+                text: "Auditoría en 5 dimensiones (jurídica, registral, catastral, técnica y comercial) antes de depositar reservas.",
               },
               {
-                icon: ShieldCheck,
-                title: "Te acompañamos a decidir",
-                text: "Información clara sobre cada espacio y acompañamiento durante el proceso de selección.",
+                icon: Compass,
+                title: "Venta con Expediente Limpio",
+                text: "Detectamos y regularizamos cargas, deslindes o sucesiones antes de comercializar para que la venta nunca se caiga.",
               },
               {
                 icon: KeyRound,
-                title: "Abrimos nuevas puertas",
-                text: "Coordinamos las visitas y los siguientes pasos para acercarte a tu próxima propiedad.",
+                title: "Incentivos CONFOTUR",
+                text: "Verificación de exenciones fiscales (15 años libres de IPI y transferencia) en proyectos turísticos certificados.",
               },
             ].map((v, i) => (
               <Reveal key={v.title}>
