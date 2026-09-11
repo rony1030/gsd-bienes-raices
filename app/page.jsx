@@ -281,11 +281,11 @@ export default async function Home() {
         <Reveal className="contact-panel-form">
           <ContactForm />
         </Reveal>
-        <a className="contact-callout" href="tel:+18097828828">
+        <a className="contact-callout" href="tel:+18294937254">
           <span className="contact-callout-icon"><ArrowUpRight size={20} /></span>
           <span className="contact-callout-copy">
-            <small>Habla con un asesor</small>
-            <strong>809 782 8828</strong>
+            <small>Habla con un asesor · Lun-Vie 9-18h</small>
+            <strong>(829) 493-7254</strong>
           </span>
         </a>
       </section>

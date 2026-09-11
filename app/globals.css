@@ -968,8 +968,8 @@ footer {
   max-width: 1400px;
   margin: auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 36px;
   padding-bottom: 50px;
 }
 .footer-main > div {

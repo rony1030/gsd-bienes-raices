@@ -160,6 +160,18 @@ export function Footer() {
           <Link href="/privacidad">Privacidad</Link>
           <p>República Dominicana</p>
         </div>
+        <div>
+          <span className="eyebrow">CONTACTO Y ATENCIÓN</span>
+          <a href="tel:+18294937254" style={{ fontWeight: "600", color: "#fff" }}>
+            (829) 493-7254
+          </a>
+          <p style={{ margin: "2px 0 0", color: "#b5db85", fontSize: "11px", fontWeight: "600" }}>
+            Lun - Vie: 9:00 - 18:00
+          </p>
+          <p style={{ margin: "0", color: "#a9bbbc", fontSize: "11px" }}>
+            Sáb: 9:00 - 12:00
+          </p>
+        </div>
       </div>
       <div className="footer-bottom">
         <span>© {new Date().getFullYear()} GSD Bienes Raíces</span>
@@ -172,11 +184,11 @@ export function WhatsAppButton() {
   return (
     <a
       className="whatsapp-float"
-      href="https://wa.me/18097828828?text=Hola%20GSD%2C%20quiero%20recibir%20informaci%C3%B3n%20sobre%20Bienes%20Ra%C3%ADces."
+      href="https://wa.me/18294937254?text=Hola%20GSD%20Bienes%20Ra%C3%ADces%2C%20quisiera%20recibir%20asesor%C3%ADa%20sobre%20sus%20propiedades."
       target="_blank"
       rel="noreferrer"
-      aria-label="Escribir por WhatsApp"
-      title="Escribir por WhatsApp"
+      aria-label="Escribir por WhatsApp a (829) 493-7254"
+      title="Escribir por WhatsApp (829) 493-7254 · Lun-Vie 9:00-18:00, Sáb 9:00-12:00"
     >
       <PhoneCall size={22} strokeWidth={2.25} />
       <span>WhatsApp</span>
