@@ -239,23 +239,18 @@ summary:focus-visible {
 .brand {
   display: flex;
   flex-direction: column;
-  width: 204px;
+  width: 170px;
   align-items: center;
   line-height: 1;
 }
-.brand img {
+.brand-realestate img {
   width: 100%;
-  height: 57px;
+  height: 68px;
   object-fit: contain;
 }
-.brand > span {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--navy);
-  border-top: 1px solid #8cbd56;
-  padding-top: 5px;
-  width: 100%;
-  text-align: center;
+.footer-main .brand-realestate img {
+  filter: brightness(0) invert(1);
+  height: 64px;
 }
 .nav {
   display: flex;
@@ -998,9 +993,30 @@ footer {
   padding-top: 23px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 18px;
-  font-size: 10px;
+  font-size: 11px;
   color: #a9bbbc;
+}
+.footer-scroll-link {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #d8e2e2;
+  border-radius: 999px;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.footer-scroll-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #b5db85;
+  border-color: #b5db85;
+  transform: translateY(-2px);
 }
 .whatsapp-float {
   position: fixed;

@@ -26,15 +26,14 @@ import { photos } from "@/lib/demo.mjs";
 
 export function Brand() {
   return (
-    <span className="brand">
+    <span className="brand brand-realestate">
       <Image
-        src="/logo-gsd.png"
-        alt="GSD · Geosolutions Source Dominicana"
-        width={2172}
-        height={724}
+        src="/logo-realestate.png"
+        alt="GSD Real Estate · No surprises"
+        width={400}
+        height={400}
         priority
       />
-      <span>BIENES RAÍCES</span>
     </span>
   );
 }
@@ -118,17 +117,6 @@ export function Footer() {
 
   return (
     <footer ref={footerRef}>
-      {showScroll && (
-        <button
-          className="footer-scroll"
-          onClick={scrollToTop}
-          aria-label="Volver arriba"
-          title="Volver arriba"
-        >
-          <ArrowUp size={18} strokeWidth={2.4} />
-          <span>Arriba</span>
-        </button>
-      )}
       <div className="footer-main">
         <div>
           <Link href="/">
@@ -174,8 +162,16 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} GSD Bienes Raíces</span>
-        <span>Una nueva forma de encontrar tu lugar.</span>
+        <span>© {new Date().getFullYear()} GSD Real Estate · No surprises</span>
+        <button
+          className="footer-scroll-link"
+          onClick={scrollToTop}
+          type="button"
+          aria-label="Volver al inicio"
+        >
+          <span>Volver arriba</span>
+          <ArrowUp size={14} strokeWidth={2.4} />
+        </button>
       </div>
     </footer>
   );
