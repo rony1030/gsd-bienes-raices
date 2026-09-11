@@ -917,20 +917,48 @@ footer {
 }
 .footer-scroll {
   position: absolute;
-  top: auto;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 132px;
-  height: 64px;
-  display: grid;
-  place-items: center;
-  color: var(--navy);
+  top: 24px;
+  right: 56px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  color: #102636;
   background: white;
-  border-radius: 88px 88px 0 0;
-  transition: transform .2s, height .2s;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, background 0.2s ease;
+  animation: footer-scroll-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  z-index: 10;
+  cursor: pointer;
 }
-.footer-scroll:hover { transform: translateX(-50%) translateY(4px); height: 70px; }
+.footer-scroll:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  background: #f0f7eb;
+  color: var(--green);
+}
+@keyframes footer-scroll-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 700px) {
+  .footer-scroll {
+    right: 24px;
+    top: 20px;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
 .footer-main .brand img { filter: brightness(0) invert(1); }
 .footer-main .brand > span { color: white; border-color: #a8c987; }
 .footer-main p, .footer-main a { color: #d8e2e2; }

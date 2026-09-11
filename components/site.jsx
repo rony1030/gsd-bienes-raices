@@ -95,11 +95,40 @@ export function Header() {
   );
 }
 export function Footer() {
+  const [showScroll, setShowScroll] = useState(false);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current) return;
+      const rect = footerRef.current.getBoundingClientRect();
+      // Show only when the footer enters the viewport (when user is at or near the bottom)
+      setShowScroll(rect.top <= window.innerHeight);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer>
-      <a className="footer-scroll" href="#contenido" aria-label="Volver al inicio" title="Volver al inicio">
-        <ArrowUp size={24} strokeWidth={2.4} />
-      </a>
+    <footer ref={footerRef}>
+      {showScroll && (
+        <button
+          className="footer-scroll"
+          onClick={scrollToTop}
+          aria-label="Volver arriba"
+          title="Volver arriba"
+        >
+          <ArrowUp size={18} strokeWidth={2.4} />
+          <span>Arriba</span>
+        </button>
+      )}
       <div className="footer-main">
         <div>
           <Link href="/">
