@@ -1,5 +1,5 @@
 import "./globals.css";
-import { GroupNavigation, Header, Footer, WhatsAppButton } from "@/components/site";
+import { Header, Footer, WhatsAppButton } from "@/components/site";
 export const metadata = {
   title: {
     default: "GSD Bienes Raíces | Tu próximo lugar",
@@ -16,7 +16,6 @@ export default function Layout({ children }) {
         <a className="skip" href="#contenido">
           Ir al contenido
         </a>
-        <GroupNavigation />
         <Header />
         {children}
         <Footer />
