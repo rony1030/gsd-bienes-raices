@@ -908,7 +908,7 @@ footer {
   color: white;
   padding: 82px 56px 78px;
   border-top: 0;
-  border-radius: 0 0 42px 42px;
+  border-radius: 0;
   overflow: hidden;
 }
 .footer-scroll {
