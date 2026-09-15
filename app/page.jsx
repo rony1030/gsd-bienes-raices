@@ -9,6 +9,9 @@ import {
   KeyRound,
   Armchair,
   CalendarCheck,
+  LandPlot,
+  Scale,
+  FileCheck2,
 } from "lucide-react";
 import {
   Hero,
@@ -219,30 +222,30 @@ export default async function Home() {
           <Reveal className="section-heading">
             <div>
               <span className="eyebrow">EL DIFERENCIAL GSD</span>
-              <h2>Bienes raíces con respaldo legal y técnico.</h2>
+              <h2>Bienes raíces respaldados en los 3 pilares de la tierra.</h2>
             </div>
             <p>
-              Operamos como el brazo inmobiliario de una firma jurídica y de agrimensura.
+              La jurisdicción inmobiliaria dominicana descansa sobre tres pilares: técnico, legal y registral.
               <br />
-              Transacciones transparentes, protegidas y sin sorpresas.
+              <strong>La mayoría de los despachos cubre uno. Nosotros ejercemos los tres.</strong>
             </p>
           </Reveal>
           <div className="value-grid">
             {[
               {
-                icon: ShieldCheck,
-                title: "GSD Property Check",
-                text: "Auditoría en 5 dimensiones (jurídica, registral, catastral, técnica y comercial) antes de depositar reservas.",
+                icon: LandPlot,
+                title: "Pilar Técnico · GNSS Propio",
+                text: "Levantamientos catastrales con tecnología de alta precisión, deslindes, subdivisiones, replanteos y planos de régimen de condominio ante Mensuras Catastrales.",
               },
               {
-                icon: Compass,
-                title: "Venta con Expediente Limpio",
-                text: "Detectamos y regularizamos cargas, deslindes o sucesiones antes de comercializar para que la venta nunca se caiga.",
+                icon: Scale,
+                title: "Pilar Legal · Defensa en Tierras",
+                text: "Protegemos el patrimonio desde el derecho: litigios inteligentes, saneamiento, regularización y contratos para operaciones con absoluta seguridad jurídica.",
               },
               {
-                icon: KeyRound,
-                title: "Incentivos CONFOTUR",
-                text: "Verificación de exenciones fiscales (15 años libres de IPI y transferencia) en proyectos turísticos certificados.",
+                icon: FileCheck2,
+                title: "Pilar Registral · Registro de Títulos",
+                text: "Depuración y transferencia de títulos, cancelación de hipotecas y gravámenes, hasta la emisión definitiva del certificado a nombre del cliente.",
               },
             ].map((v, i) => (
               <Reveal key={v.title}>
@@ -255,6 +258,19 @@ export default async function Home() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal className="home-promise-strip">
+            <div>
+              <span className="eyebrow gold">NUESTRA PROMESA</span>
+              <h3>Firma tranquilo.</h3>
+              <p>
+                Antes de que usted firme, nosotros medimos el terreno, revisamos el título, depuramos el registro y anticipamos el conflicto. <strong>Y después, duerme tranquilo.</strong>
+              </p>
+            </div>
+            <Link href="/nosotros" className="button gold-btn">
+              Conocer más de la firma <ArrowUpRight size={17} />
+            </Link>
+          </Reveal>
         </div>
       </section>
       <section className="contact-panel container" id="contacto">
