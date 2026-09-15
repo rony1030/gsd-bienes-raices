@@ -38,9 +38,25 @@ export async function POST(request) {
     const p = parsed.data,
       sql = database();
     const rows =
-      await sql`INSERT INTO real_estate.properties(slug,title,location,type,operation,price,currency,beds,baths,area,description,images,amenities,featured,status,meta_title,meta_description,keywords,seo_score)
-      VALUES(${p.slug},${p.title},${p.location},${p.type},${p.operation},${p.price},${p.currency},${p.beds},${p.baths},${p.area},${p.description},${JSON.stringify(p.images)}::jsonb,${JSON.stringify(p.amenities)}::jsonb,${p.featured},${p.status},${p.meta_title || ''},${p.meta_description || ''},${p.keywords || ''},${p.seo_score || 0})
-      ON CONFLICT(slug) DO UPDATE SET title=EXCLUDED.title,location=EXCLUDED.location,type=EXCLUDED.type,operation=EXCLUDED.operation,price=EXCLUDED.price,currency=EXCLUDED.currency,beds=EXCLUDED.beds,baths=EXCLUDED.baths,area=EXCLUDED.area,description=EXCLUDED.description,images=EXCLUDED.images,amenities=EXCLUDED.amenities,featured=EXCLUDED.featured,status=EXCLUDED.status,meta_title=EXCLUDED.meta_title,meta_description=EXCLUDED.meta_description,keywords=EXCLUDED.keywords,seo_score=EXCLUDED.seo_score,updated_at=now() RETURNING id,slug`;
+      await sql`INSERT INTO real_estate.properties(
+        slug,title,location,type,operation,price,currency,beds,baths,area,description,
+        images,amenities,featured,status,
+        condition_type,city,province,sector,parkinglot,terrain_area,tour_3d,short_description,featured_image,
+        meta_title,meta_description,keywords,seo_score
+      )
+      VALUES(
+        ${p.slug},${p.title},${p.location},${p.type},${p.operation},${p.price},${p.currency},${p.beds},${p.baths},${p.area},${p.description},
+        ${JSON.stringify(p.images)}::jsonb,${JSON.stringify(p.amenities)}::jsonb,${p.featured},${p.status},
+        ${p.condition_type || 'Listo'},${p.city || ''},${p.province || ''},${p.sector || ''},${p.parkinglot || 0},${p.terrain_area || 0},${p.tour_3d || ''},${p.short_description || ''},${p.featured_image || ''},
+        ${p.meta_title || ''},${p.meta_description || ''},${p.keywords || ''},${p.seo_score || 0}
+      )
+      ON CONFLICT(slug) DO UPDATE SET 
+        title=EXCLUDED.title,location=EXCLUDED.location,type=EXCLUDED.type,operation=EXCLUDED.operation,price=EXCLUDED.price,currency=EXCLUDED.currency,
+        beds=EXCLUDED.beds,baths=EXCLUDED.baths,area=EXCLUDED.area,description=EXCLUDED.description,
+        images=EXCLUDED.images,amenities=EXCLUDED.amenities,featured=EXCLUDED.featured,status=EXCLUDED.status,
+        condition_type=EXCLUDED.condition_type,city=EXCLUDED.city,province=EXCLUDED.province,sector=EXCLUDED.sector,parkinglot=EXCLUDED.parkinglot,terrain_area=EXCLUDED.terrain_area,tour_3d=EXCLUDED.tour_3d,short_description=EXCLUDED.short_description,featured_image=EXCLUDED.featured_image,
+        meta_title=EXCLUDED.meta_title,meta_description=EXCLUDED.meta_description,keywords=EXCLUDED.keywords,seo_score=EXCLUDED.seo_score,
+        updated_at=now() RETURNING id,slug`;
     return Response.json(rows[0]);
   } catch {
     return Response.json(
