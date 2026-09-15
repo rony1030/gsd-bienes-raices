@@ -336,24 +336,63 @@ export default function About() {
         </div>
       </section>
 
-      {/* Nuestra Promesa - Signature Banner */}
+      {/* Asesoría y Seguridad Patrimonial - Banner de Alto Valor */}
       <section className="container" style={{ margin: "4rem auto 6rem" }}>
         <div className="promise-banner">
           <span className="eyebrow">
-            <i /> NUESTRA PROMESA
+            <i /> ASESORÍA Y SEGURIDAD PATRIMONIAL
           </span>
-          <h2>Firma tranquilo.</h2>
+          <h2>Invierta con certeza técnica, respaldo legal y rentabilidad verificada.</h2>
           <p className="promise-lead">
-            Antes de que usted firme, nosotros medimos el terreno, revisamos el
-            título, depuramos el registro y anticipamos el conflicto.
+            En Geosolutions Source Dominicana transformamos la tierra en un activo seguro y rentable.
+            Antes de comprometer su capital o firmar cualquier reserva, nuestro equipo multidisciplinario
+            audita el historial del inmueble, certifica la mensura en campo y estructura contratos blindados.
           </p>
-          <div className="promise-conclusion">
-            <span>Y después, duerme tranquilo.</span>
+
+          <div className="promise-guarantees">
+            <div className="guarantee-item">
+              <span className="guarantee-icon">
+                <FileCheck2 size={22} />
+              </span>
+              <div>
+                <strong>Auditoría Registral Previa</strong>
+                <p>Depuración exhaustiva de títulos, gravámenes, hipotecas y sucesiones ante el Registro de Títulos.</p>
+              </div>
+            </div>
+
+            <div className="guarantee-item">
+              <span className="guarantee-icon">
+                <LandPlot size={22} />
+              </span>
+              <div>
+                <strong>Precisión Catastral GNSS</strong>
+                <p>Verificación milimétrica de linderos y superficie con instrumentación geodésica propia.</p>
+              </div>
+            </div>
+
+            <div className="guarantee-item">
+              <span className="guarantee-icon">
+                <ShieldCheck size={22} />
+              </span>
+              <div>
+                <strong>Blindaje Contractual Integral</strong>
+                <p>Acompañamiento legal de punta a punta: desde la debida diligencia hasta el certificado definitivo.</p>
+              </div>
+            </div>
           </div>
-          <div style={{ marginTop: "2.5rem" }}>
+
+          <div className="promise-actions">
             <Link href="/#contacto" className="button dark">
-              Iniciar auditoría o consulta <ArrowUpRight size={18} />
+              Solicitar Asesoría Inmobiliaria <ArrowUpRight size={18} />
             </Link>
+            <a
+              href="https://wa.me/18294937254?text=Hola%2C%20quisiera%20recibir%20asesor%C3%ADa%20para%20una%20inversi%C3%B3n%20inmobiliaria%20con%20GSD."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="button secondary"
+            >
+              Consultar vía WhatsApp (829) 493-7254
+            </a>
           </div>
         </div>
       </section>
