@@ -169,12 +169,12 @@ export default function About() {
               const Icon = p.icon;
               return (
                 <div key={p.num} className="pillar-card">
+                  <div className="pillar-bg-icon" aria-hidden="true">
+                    <Icon size={165} strokeWidth={1.2} />
+                  </div>
                   <div className="pillar-header">
                     <span className="pillar-num">{p.num}</span>
                     <span className="pillar-tag">{p.tag}</span>
-                  </div>
-                  <div className="pillar-icon-box">
-                    <Icon size={28} />
                   </div>
                   <h3>Pilar {p.name}</h3>
                   <h4 className="pillar-sub">{p.subtitle}</h4>
