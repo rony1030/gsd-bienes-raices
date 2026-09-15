@@ -29,9 +29,9 @@ export function Brand() {
     <span className="brand brand-realestate">
       <Image
         src="/logo-realestate.png"
-        alt="GSD Real Estate · No surprises"
-        width={400}
-        height={400}
+        alt="GSD Real Estate"
+        width={1200}
+        height={316}
         priority
       />
     </span>
