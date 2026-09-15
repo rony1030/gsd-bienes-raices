@@ -442,16 +442,18 @@ export const money = (p) =>
     maximumFractionDigits: 0,
   }).format(p.price)}`;
 export function PropertyCard({ property: p }) {
+  const imageSrc = (Array.isArray(p.images) && p.images[0]) || (typeof p.images === 'string' && p.images) || photos.apartment;
   return (
     <article className="property-card">
       <div className="property-image">
         <Link href={`/propiedades/${p.slug}`} tabIndex={-1} aria-hidden="true">
           <Image
-            src={p.images[0]}
+            src={imageSrc}
             alt={p.title}
             fill
             sizes="(max-width: 700px) 100vw, (max-width: 1050px) 50vw, 33vw"
-            unoptimized={!p.images[0].includes("images.unsplash.com")}
+            unoptimized={typeof imageSrc === 'string' && (imageSrc.startsWith('http') || imageSrc.startsWith('/uploads'))}
+            style={{ objectFit: 'cover' }}
           />
         </Link>
         <span className="tag">{p.operation}</span>
@@ -602,29 +604,36 @@ export function Catalog({ properties, initial = {} }) {
 export function Gallery({ property: p }) {
   const [index, setIndex] = useState(0),
     ref = useRef(null);
+  const images = (Array.isArray(p.images) && p.images.length > 0) 
+    ? p.images 
+    : (typeof p.images === 'string' && p.images) 
+      ? [p.images] 
+      : [photos.apartment];
   const change = (n) =>
-    setIndex((i) => (i + n + p.images.length) % p.images.length);
+    setIndex((i) => (i + n + images.length) % images.length);
+  const currentImg = images[index] || images[0];
   return (
     <div className="gallery">
       <button
         className="gallery-main"
-        onClick={() => ref.current.showModal()}
+        onClick={() => ref.current?.showModal()}
         aria-label="Ampliar fotografía"
       >
         <Image
-          src={p.images[index]}
+          src={currentImg}
           alt={`${p.title}, imagen ${index + 1}`}
           fill
           sizes="(max-width: 800px) 100vw, 70vw"
           priority
-          unoptimized={!p.images[index].includes("images.unsplash.com")}
+          unoptimized={typeof currentImg === 'string' && (currentImg.startsWith('http') || currentImg.startsWith('/uploads'))}
+          style={{ objectFit: 'cover' }}
         />
         <span>
           <Maximize size={17} /> Ver galería
         </span>
       </button>
       <div className="gallery-thumbs">
-        {p.images.map((src, i) => (
+        {images.map((src, i) => (
           <button
             key={i}
             onClick={() => setIndex(i)}
@@ -636,7 +645,8 @@ export function Gallery({ property: p }) {
               alt={`Vista ${i + 1} de ${p.title}`}
               fill
               sizes="160px"
-              unoptimized={!src.includes("images.unsplash.com")}
+              unoptimized={typeof src === 'string' && (src.startsWith('http') || src.startsWith('/uploads'))}
+              style={{ objectFit: 'cover' }}
             />
           </button>
         ))}
