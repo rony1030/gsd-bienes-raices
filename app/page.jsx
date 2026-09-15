@@ -261,13 +261,15 @@ export default async function Home() {
 
           <Reveal className="home-promise-strip">
             <div>
-              <span className="eyebrow gold">NUESTRA PROMESA</span>
+              <span className="eyebrow">
+                <i /> NUESTRA PROMESA
+              </span>
               <h3>Firma tranquilo.</h3>
               <p>
                 Antes de que usted firme, nosotros medimos el terreno, revisamos el título, depuramos el registro y anticipamos el conflicto. <strong>Y después, duerme tranquilo.</strong>
               </p>
             </div>
-            <Link href="/nosotros" className="button gold-btn">
+            <Link href="/nosotros" className="button dark">
               Conocer más de la firma <ArrowUpRight size={17} />
             </Link>
           </Reveal>

@@ -218,11 +218,13 @@ export default function About() {
       </section>
 
       {/* Objeto, Misión y Visión */}
-      <section className="about-section bg-dark text-white">
+      <section className="about-section about-mv-section">
         <div className="container">
           <div className="mv-grid">
             <div className="mv-card main-objeto">
-              <span className="eyebrow gold">NUESTRO OBJETO</span>
+              <span className="eyebrow">
+                <i /> NUESTRO OBJETO
+              </span>
               <h2>Que la tierra deje de ser un riesgo y vuelva a ser un activo.</h2>
               <p>
                 Reunimos los tres pilares del inmueble bajo una sola firma,
@@ -234,7 +236,9 @@ export default function About() {
 
             <div className="mv-card">
               <div className="mv-icon-row">
-                <Target size={24} className="gold-icon" />
+                <span className="mv-icon-badge">
+                  <Target size={22} />
+                </span>
                 <h3>Misión</h3>
               </div>
               <p>
@@ -245,7 +249,7 @@ export default function About() {
                 desarrollar o defender un inmueble deje de ser una fuente de
                 incertidumbre.
               </p>
-              <p style={{ marginTop: "1rem", opacity: 0.9 }}>
+              <p style={{ marginTop: "1rem", color: "var(--muted)" }}>
                 Trabajamos para que cada cliente conozca en todo momento el
                 estado de su expediente, entienda lo que está en juego y pueda
                 decidir sobre información cierta.
@@ -254,7 +258,9 @@ export default function About() {
 
             <div className="mv-card">
               <div className="mv-icon-row">
-                <Eye size={24} className="gold-icon" />
+                <span className="mv-icon-badge">
+                  <Eye size={22} />
+                </span>
                 <h3>Visión</h3>
               </div>
               <p>
@@ -262,7 +268,7 @@ export default function About() {
                 República Dominicana y la primera opción de los desarrolladores
                 que construyen el país.
               </p>
-              <p style={{ marginTop: "1rem", opacity: 0.9 }}>
+              <p style={{ marginTop: "1rem", color: "var(--muted)" }}>
                 Aspiramos a que, cuando se hable de condominios, desarrollos,
                 deslindes o conflictos sobre la tierra, el criterio de GSD sea
                 el criterio que se consulta.
@@ -333,7 +339,9 @@ export default function About() {
       {/* Nuestra Promesa - Signature Banner */}
       <section className="container" style={{ margin: "4rem auto 6rem" }}>
         <div className="promise-banner">
-          <span className="eyebrow gold">NUESTRA PROMESA</span>
+          <span className="eyebrow">
+            <i /> NUESTRA PROMESA
+          </span>
           <h2>Firma tranquilo.</h2>
           <p className="promise-lead">
             Antes de que usted firme, nosotros medimos el terreno, revisamos el
@@ -343,7 +351,7 @@ export default function About() {
             <span>Y después, duerme tranquilo.</span>
           </div>
           <div style={{ marginTop: "2.5rem" }}>
-            <Link href="/#contacto" className="button gold-btn">
+            <Link href="/#contacto" className="button dark">
               Iniciar auditoría o consulta <ArrowUpRight size={18} />
             </Link>
           </div>
