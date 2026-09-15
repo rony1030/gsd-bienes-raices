@@ -21,11 +21,14 @@ import {
   Reveal,
   CountUp,
 } from "@/components/site";
-import { getProperties } from "@/lib/db.mjs";
+import { getProperties, getInstagramFeed } from "@/lib/db.mjs";
 import { photos } from "@/lib/demo.mjs";
 export const dynamic = "force-dynamic";
 export default async function Home() {
-  const properties = await getProperties();
+  const [properties, instaFeed] = await Promise.all([
+    getProperties(),
+    getInstagramFeed('bienes-raices')
+  ]);
   return (
     <main id="contenido">
       <Hero />
@@ -311,14 +314,31 @@ export default async function Home() {
         <div className="container">
           <Reveal className="instagram-heading">
             <div><span className="eyebrow">INSPIRACIÓN GSD</span><h2>Instagram</h2></div>
-            <a className="text-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer">@GSD <ArrowUpRight size={19} /></a>
+            <a className="text-link" href={instaFeed.instagram_url} target="_blank" rel="noreferrer">
+              {instaFeed.instagram_handle} <ArrowUpRight size={19} />
+            </a>
           </Reveal>
           <div className="instagram-grid">
-            {[photos.hero, photos.apartment, photos.villa, photos.home].map((image, index) => (
-              <Reveal className="instagram-post" key={image}>
-                <Image src={image} alt={`Inspiración inmobiliaria GSD ${index + 1}`} fill sizes="(max-width: 700px) 50vw, 25vw" />
-              </Reveal>
-            ))}
+            {instaFeed.posts.map((post, index) => {
+              const Wrapper = post.link ? 'a' : 'div';
+              const wrapperProps = post.link 
+                ? { href: post.link, target: '_blank', rel: 'noreferrer', title: post.caption || 'Ver en Instagram' }
+                : {};
+              return (
+                <Reveal className="instagram-post" key={post.image || index}>
+                  <Wrapper {...wrapperProps} style={{ display: 'block', width: '100%', height: '100%', position: 'relative' }}>
+                    <Image 
+                      src={post.image} 
+                      alt={post.caption || `Inspiración inmobiliaria GSD ${index + 1}`} 
+                      fill 
+                      unoptimized={post.image.startsWith('http')}
+                      sizes="(max-width: 700px) 50vw, 25vw" 
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </Wrapper>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
