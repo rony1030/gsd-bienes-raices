@@ -55,8 +55,8 @@ export function Header() {
         <Link onClick={() => setOpen(false)} href="/propiedades">
           Propiedades
         </Link>
-        <Link onClick={() => setOpen(false)} href="/destinos">
-          Destinos
+        <Link onClick={() => setOpen(false)} href="/proyectos">
+          Proyectos
         </Link>
         <Link onClick={() => setOpen(false)} href="/nosotros">
           Nosotros
@@ -119,7 +119,7 @@ export function Footer() {
         <div>
           <span className="eyebrow">EXPLORA</span>
           <Link href="/propiedades">Propiedades</Link>
-          <Link href="/destinos">Nuestros destinos</Link>
+          <Link href="/proyectos">Nuestros proyectos</Link>
           <Link href="/nosotros">Nosotros</Link>
           <Link href="/blog">Blog</Link>
         </div>

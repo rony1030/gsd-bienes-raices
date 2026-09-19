@@ -107,9 +107,9 @@ export default async function Home() {
       </section>
       <section className="metrics container" aria-label="GSD en números">
         <CountUp
-          value={4}
-          label="destinos para explorar"
-          detail="Del ritmo de Santo Domingo a la calma de Samaná."
+          value={100}
+          label="proyectos disponibles"
+          detail="Stellar, Cosmo, Galaxy, Canar Rock y muchos más."
         />
         <CountUp
           value={6}
@@ -125,45 +125,49 @@ export default async function Home() {
       <section className="section container destinations">
         <Reveal className="section-heading">
           <div>
-            <span className="eyebrow">UNA ISLA. MUCHAS POSIBILIDADES.</span>
-            <h2>¿Dónde empieza tu historia?</h2>
+            <span className="eyebrow">DESARROLLOS EXCLUSIVOS</span>
+            <h2>Proyectos que definen<br /><em>el nuevo Caribe.</em></h2>
           </div>
           <p>
-            De la energía de la ciudad
-            <br />a la calma junto al mar.
+            Más de 100 desarrollos.
+            <br />Nosotros te guiamos al correcto.
           </p>
         </Reveal>
         <div className="destination-grid">
           {[
             {
-              name: "Punta Cana",
+              name: "Stellar",
               image: photos.hero,
-              label: "El Caribe, todos los días",
+              label: "Bávaro, Punta Cana",
+              slug: "stellar-punta-cana",
             },
             {
-              name: "Samaná",
+              name: "Cosmo",
               image: photos.villa,
-              label: "Conecta con lo natural",
+              label: "Bávaro, La Altagracia",
+              slug: "cosmo-bavaro",
             },
             {
-              name: "Puerto Plata",
+              name: "Galaxy",
               image: photos.home,
-              label: "Tu refugio en el norte",
+              label: "Cap Cana",
+              slug: "galaxy-cap-cana",
             },
             {
-              name: "Santo Domingo",
+              name: "Canar Rock",
               image: photos.apartment,
-              label: "Vive el pulso de la ciudad",
+              label: "Bávaro, Punta Cana",
+              slug: "canar-rock-bavaro",
             },
           ].map((d, i) => (
             <Link
               key={d.name}
-              href={`/destinos#${d.name.toLowerCase().replaceAll(" ", "-")}`}
+              href={`/proyectos/${d.slug}`}
               className="destination"
             >
               <Image
                 src={d.image}
-                alt={`Residencia ilustrativa para ${d.name}`}
+                alt={`${d.name} — desarrollo inmobiliario de referencia`}
                 fill
                 sizes="(max-width:700px) 50vw,25vw"
               />
