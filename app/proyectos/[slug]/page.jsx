@@ -8,8 +8,9 @@ import { ContactForm } from "@/components/site";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
   const projects = await getProjects();
-  const p = projects.find((x) => x.slug === params.slug);
+  const p = projects.find((x) => x.slug === resolvedParams.slug);
   if (!p) return { title: "Proyecto no encontrado" };
   return {
     title: `${p.nombre} — GSD Real Estate`,
@@ -25,8 +26,9 @@ const fmt = (n) =>
   }).format(n);
 
 export default async function ProyectoDetalle({ params }) {
+  const resolvedParams = await params;
   const projects = await getProjects();
-  const p = projects.find((x) => x.slug === params.slug);
+  const p = projects.find((x) => x.slug === resolvedParams.slug);
   if (!p) notFound();
 
   const otros = projects.filter((x) => x.slug !== p.slug).slice(0, 3);
