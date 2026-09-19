@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, MapPin, Calendar, Building2, CheckCircle2, ChevronLeft } from "lucide-react";
+import { 
+  ArrowUpRight, MapPin, Calendar, Building2, CheckCircle2, ChevronLeft, 
+  ShieldCheck, Percent, Layers, Home, Phone, Download, Compass, Clock, Check
+} from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
-import { ContactForm } from "@/components/site";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +15,7 @@ export async function generateMetadata({ params }) {
   const p = projects.find((x) => x.slug === resolvedParams.slug);
   if (!p) return { title: "Proyecto no encontrado" };
   return {
-    title: `${p.nombre} — GSD Real Estate`,
+    title: `${p.nombre} — Desarrollos Exclusivos | GSD Real Estate`,
     description: p.descripcion,
   };
 }
@@ -33,9 +35,92 @@ export default async function ProyectoDetalle({ params }) {
 
   const otros = projects.filter((x) => x.slug !== p.slug).slice(0, 3);
 
+  // Extract blocks or construct default luxury blocks
+  const bloques = Array.isArray(p.bloques) && p.bloques.length > 0 ? p.bloques : [
+    {
+      id: "blk_met",
+      type: "metricas",
+      title: "Métricas Clave & Beneficios de Inversión",
+      items: [
+        { label: "Superficie desde", value: "72 m²", sub: "Apartamentos & Penthouses" },
+        { label: "Retorno Estimado", value: "11.5% Anual", sub: "Rentabilidad vacacional" },
+        { label: "Ley Confotur", value: "15 Años Exento", sub: "0% IPI y 0% Transferencia" },
+        { label: "Distancia Playa", value: "3 Minutos", sub: "Acceso directo a Bávaro" }
+      ]
+    },
+    {
+      id: "blk_tip",
+      type: "tipologias",
+      title: "Tipologías de Unidades & Planos Arquitectónicos",
+      units: [
+        {
+          name: "Suite 1 Habitación",
+          area: "72 m²",
+          habs: "1 Hab · 1.5 Baños",
+          precio: `Desde ${fmt(p.precio_desde || 180000)}`,
+          plano_url: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80",
+          desc: "Balcón panorámico, sala-comedor integrada, cocina modular importada y acabados de lujo."
+        },
+        {
+          name: "Apartamento 2 Habitaciones",
+          area: "115 m²",
+          habs: "2 Habs · 2.5 Baños · 1 Pq",
+          precio: `Desde ${fmt((p.precio_desde || 180000) * 1.35)}`,
+          plano_url: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+          desc: "Habitación principal con walk-in closet, terraza amplia con vista a la piscina y family room."
+        },
+        {
+          name: "Penthouse Exclusivo con Rooftop",
+          area: "190 m²",
+          habs: "3 Habs · 3.5 Baños · Jacuzzi",
+          precio: `Desde ${fmt((p.precio_desde || 180000) * 1.95)}`,
+          plano_url: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80",
+          desc: "Doble altura, terraza privada con picuzzi y zona BBQ con vista 360° al mar Caribe."
+        }
+      ]
+    },
+    {
+      id: "blk_amen",
+      type: "amenidades",
+      title: "Amenidades de Estilo Resort & Bienestar",
+      items: p.amenidades?.length > 0 ? p.amenidades : [
+        "Piscina infinita central", "Gym & Fitness Center", "Spa & Zona Wellness",
+        "Club de Playa privado", "Concierge 24/7", "Coworking & Lounge",
+        "Seguridad perimetral con cámaras", "Restaurante gourmet"
+      ]
+    },
+    {
+      id: "blk_pago",
+      type: "plan_pago",
+      title: "Estructura del Plan de Pago",
+      steps: [
+        { pct: "US$3,000", title: "Reserva", desc: "Bloqueo de unidad en inventario" },
+        { pct: "20%", title: "Firma de Contrato", desc: "Completado a los 30 días" },
+        { pct: "40%", title: "Durante Construcción", desc: "En cómodas cuotas mensuales" },
+        { pct: "40%", title: "Contra Entrega", desc: "Financiamiento bancario disponible" }
+      ]
+    },
+    {
+      id: "blk_dist",
+      type: "distancias",
+      title: "Ubicación Estratégica & Puntos de Interés",
+      points: [
+        { place: "Playa Bávaro / Los Corales", time: "3 min" },
+        { place: "Aeropuerto Internacional PUJ", time: "15 min" },
+        { place: "Downtown Punta Cana / Coco Bongo", time: "8 min" },
+        { place: "BlueMall Punta Cana", time: "14 min" },
+        { place: "Centro Médico Internacional", time: "6 min" }
+      ]
+    }
+  ];
+
+  const wpMessage = encodeURIComponent(
+    `Hola Esteban / GSD Real Estate, me interesa recibir más información y disponibilidad del proyecto ${p.nombre} en ${p.ubicacion} (Ref: ${p.slug}).`
+  );
+
   return (
     <main id="contenido">
-      {/* HERO */}
+      {/* HERO SECTION */}
       <section className="proy-hero">
         <Image
           src={p.cover_image}
@@ -48,12 +133,12 @@ export default async function ProyectoDetalle({ params }) {
         <div className="proy-hero-overlay" />
         <div className="proy-hero-content container">
           <Link href="/proyectos" className="proy-back">
-            <ChevronLeft size={16} /> Todos los proyectos
+            <ChevronLeft size={16} /> Catálogo de Proyectos
           </Link>
-          <span className="eyebrow" style={{ color: "rgba(255,255,255,0.7)" }}>
-            <MapPin size={13} /> {p.ubicacion}
-          </span>
-          <h1 style={{ color: "#fff", fontSize: "clamp(2.2rem,6vw,4rem)", marginTop: "0.3rem" }}>
+          <div className="proy-hero-eyebrow">
+            <MapPin size={13} /> {p.ubicacion} · {p.promotor}
+          </div>
+          <h1 className="proy-hero-title">
             {p.nombre}
           </h1>
           <div className="proy-hero-badges">
@@ -63,32 +148,196 @@ export default async function ProyectoDetalle({ params }) {
             >
               {p.estado === "Entrega inmediata" ? "✓ Entrega inmediata" : "⬤ En construcción"}
             </span>
-            <span className="proyecto-badge" style={{ color: "#1A3A52" }}>
-              <Calendar size={11} /> Entrega {p.entrega}
+            <span className="proyecto-badge dark">
+              <Calendar size={13} /> Entrega {p.entrega}
+            </span>
+            <span className="proyecto-badge gold">
+              <ShieldCheck size={13} /> Asesoría Legal Incluida
             </span>
           </div>
         </div>
       </section>
 
-      {/* CONTENIDO + SIDEBAR */}
-      <div className="container proy-layout">
-        {/* Contenido editorial */}
-        <article className="proy-content">
-          <p className="proy-intro">{p.descripcion}</p>
+      {/* SUB-NAV ANCHOR BAR */}
+      <nav className="proy-subnav-bar">
+        <div className="container proy-subnav-inner">
+          <a href="#vision" className="proy-nav-link">Visión General</a>
+          <a href="#metricas" className="proy-nav-link">Métricas</a>
+          <a href="#tipologias" className="proy-nav-link">Tipologías & Planos</a>
+          <a href="#amenidades" className="proy-nav-link">Amenidades</a>
+          <a href="#plan-pago" className="proy-nav-link">Plan de Pago</a>
+          <a href="#ubicacion" className="proy-nav-link">Ubicación</a>
+          {p.galeria?.length > 0 && <a href="#galeria" className="proy-nav-link">Galería</a>}
+        </div>
+      </nav>
 
-          {/* Galería */}
+      {/* MAIN LAYOUT */}
+      <div className="container proy-layout">
+        
+        {/* EDITORIAL CONTENT & DYNAMIC FLEXBOX BLOCKS */}
+        <article className="proy-content">
+          
+          {/* VISIÓN GENERAL */}
+          <section id="vision" className="proy-section">
+            <span className="eyebrow" style={{ color: "var(--green, #4A9B6F)" }}>Concepto & Arquitectura</span>
+            <h2 className="proy-main-heading">Una experiencia residencial diseñada para trascender</h2>
+            <p className="proy-intro">{p.descripcion}</p>
+          </section>
+
+          {/* DYNAMIC FLEXBOX BLOCKS RENDERER */}
+          {bloques.map((b, bIdx) => {
+            
+            // 1. MÉTRICAS CLAVE
+            if (b.type === "metricas") {
+              return (
+                <section key={b.id || bIdx} id="metricas" className="proy-section proy-metrics-container">
+                  <h3 className="proy-section-title">{b.title}</h3>
+                  <div className="proy-metrics-grid">
+                    {(b.items || []).map((it, i) => (
+                      <div key={i} className="proy-metric-card">
+                        <span className="metric-label">{it.label}</span>
+                        <strong className="metric-value">{it.value}</strong>
+                        <span className="metric-sub">{it.sub}</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+
+            // 2. TIPOLOGÍAS & PLANOS
+            if (b.type === "tipologias") {
+              return (
+                <section key={b.id || bIdx} id="tipologias" className="proy-section">
+                  <h3 className="proy-section-title">{b.title}</h3>
+                  <div className="proy-units-grid">
+                    {(b.units || []).map((u, i) => (
+                      <div key={i} className="proy-unit-card">
+                        {u.plano_url && (
+                          <div className="proy-unit-image-wrap">
+                            <Image
+                              src={u.plano_url}
+                              alt={u.name}
+                              fill
+                              unoptimized={u.plano_url.startsWith("http")}
+                              sizes="(max-width:768px) 100vw, 400px"
+                              style={{ objectFit: "cover" }}
+                            />
+                            <span className="unit-badge-area">{u.area}</span>
+                          </div>
+                        )}
+                        <div className="proy-unit-body">
+                          <h4 className="unit-name">{u.name}</h4>
+                          <span className="unit-habs">{u.habs}</span>
+                          <p className="unit-desc">{u.desc}</p>
+                          <div className="unit-footer">
+                            <span className="unit-price">{u.precio}</span>
+                            <a 
+                              href={`https://wa.me/18294937254?text=${encodeURIComponent(`Hola, solicito información del modelo ${u.name} en ${p.nombre}.`)}`} 
+                              target="_blank" 
+                              rel="noreferrer" 
+                              className="unit-cta"
+                            >
+                              Cotizar unidad <ArrowUpRight size={14} />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+
+            // 3. AMENIDADES RESORT
+            if (b.type === "amenidades") {
+              return (
+                <section key={b.id || bIdx} id="amenidades" className="proy-section">
+                  <h3 className="proy-section-title">{b.title}</h3>
+                  <div className="proy-amenities-grid">
+                    {(b.items || []).map((amenity, i) => (
+                      <div key={i} className="proy-amenity-card">
+                        <div className="amenity-icon">
+                          <Check size={14} />
+                        </div>
+                        <span className="amenity-text">{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+
+            // 4. PLAN DE PAGO
+            if (b.type === "plan_pago") {
+              return (
+                <section key={b.id || bIdx} id="plan-pago" className="proy-section proy-payment-section">
+                  <h3 className="proy-section-title" style={{ color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}>
+                    {b.title}
+                  </h3>
+                  <p style={{ color: "#CBD5E1", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
+                    Estructura de pagos escalonada adaptada a inversionistas locales e internacionales.
+                  </p>
+                  <div className="proy-payment-grid">
+                    {(b.steps || []).map((step, i) => (
+                      <div key={i} className="payment-step-card">
+                        <span className="step-num">Hito 0{i + 1}</span>
+                        <strong className="step-pct">{step.pct}</strong>
+                        <span className="step-title">{step.title}</span>
+                        <small className="step-desc">{step.desc}</small>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+
+            // 5. DISTANCIAS & ENTORNO
+            if (b.type === "distancias") {
+              return (
+                <section key={b.id || bIdx} id="ubicacion" className="proy-section">
+                  <h3 className="proy-section-title">{b.title}</h3>
+                  <div className="proy-distances-grid">
+                    {(b.points || []).map((pt, i) => (
+                      <div key={i} className="distance-card">
+                        <div style="display:flex;align-items:center;gap:8px" className="dist-place">
+                          <Compass size={16} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
+                          <span>{pt.place}</span>
+                        </div>
+                        <strong className="dist-time">{pt.time}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+
+            // 6. TEXTO EDITORIAL
+            if (b.type === "editorial") {
+              return (
+                <section key={b.id || bIdx} className="proy-section proy-editorial-block">
+                  {b.heading && <h3 className="proy-section-title">{b.heading}</h3>}
+                  <div className="editorial-text">{b.content}</div>
+                </section>
+              );
+            }
+
+            return null;
+          })}
+
+          {/* GALERÍA DE FOTOS */}
           {p.galeria?.length > 0 && (
-            <section className="proy-gallery">
-              <h2 className="proy-section-title">Galería</h2>
+            <section id="galeria" className="proy-section proy-gallery">
+              <h3 className="proy-section-title">Galería de Imágenes & Entorno</h3>
               <div className="proy-gallery-grid">
                 {p.galeria.map((img, i) => (
-                  <div key={i} className="proy-gallery-item">
+                  <div key={i} className={`proy-gallery-item ${i === 0 ? "featured" : ""}`}>
                     <Image
                       src={img}
-                      alt={`${p.nombre} — vista ${i + 1}`}
+                      alt={`${p.nombre} — fotografía ${i + 1}`}
                       fill
                       unoptimized={img.startsWith("http")}
-                      sizes="(max-width:700px) 100vw,50vw"
+                      sizes="(max-width:700px) 100vw, 50vw"
                       style={{ objectFit: "cover" }}
                     />
                   </div>
@@ -97,25 +346,10 @@ export default async function ProyectoDetalle({ params }) {
             </section>
           )}
 
-          {/* Amenidades */}
-          {p.amenidades?.length > 0 && (
-            <section className="proy-amenidades">
-              <h2 className="proy-section-title">Amenidades</h2>
-              <ul className="proy-amenidades-list">
-                {p.amenidades.map((a) => (
-                  <li key={a}>
-                    <CheckCircle2 size={15} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {/* Otros proyectos */}
+          {/* OTROS PROYECTOS RECOMENDADOS */}
           {otros.length > 0 && (
-            <section className="proy-otros">
-              <h2 className="proy-section-title">Otros proyectos</h2>
+            <section className="proy-section proy-otros">
+              <h3 className="proy-section-title">Otros Desarrollos en Catálogo</h3>
               <div className="proy-otros-grid">
                 {otros.map((o) => (
                   <Link key={o.slug} href={`/proyectos/${o.slug}`} className="proy-otro-card">
@@ -125,133 +359,470 @@ export default async function ProyectoDetalle({ params }) {
                         alt={o.nombre}
                         fill
                         unoptimized={o.cover_image.startsWith("http")}
-                        sizes="200px"
+                        sizes="100px"
                         style={{ objectFit: "cover" }}
                       />
                     </div>
-                    <div>
-                      <span style={{ fontSize: "11px", color: "var(--gray)", display: "block" }}>
+                    <div style={{ flex: 1 }}>
+                      <span style={{ fontSize: "11px", color: "var(--gray, #6b7280)", display: "block" }}>
                         {o.ubicacion}
                       </span>
-                      <strong style={{ color: "var(--navy)" }}>{o.nombre}</strong>
-                      <span style={{ display: "block", fontSize: "12px", color: "var(--green, #4A9B6F)", marginTop: 2 }}>
+                      <strong style={{ color: "var(--navy, #1A3A52)", fontSize: "14px" }}>{o.nombre}</strong>
+                      <span style={{ display: "block", fontSize: "12.5px", color: "var(--green, #4A9B6F)", fontWeight: "600", marginTop: 2 }}>
                         Desde {fmt(o.precio_desde)}
                       </span>
                     </div>
+                    <ArrowUpRight size={16} style={{ color: "var(--gray)" }} />
                   </Link>
                 ))}
               </div>
             </section>
           )}
+
         </article>
 
-        {/* Sidebar sticky */}
+        {/* STICKY INVESTMENT SIDEBAR */}
         <aside className="proy-sidebar">
           <div className="proy-sidebar-card">
-            <div className="proy-sidebar-precio">
-              <span>Precio desde</span>
-              <strong>{fmt(p.precio_desde)}</strong>
+            
+            <div className="proy-sidebar-header">
+              <span className="sidebar-eyebrow">Inversión Inmobiliaria</span>
+              <div className="proy-sidebar-price">
+                <small>Desde</small>
+                <strong>{fmt(p.precio_desde)}</strong>
+                <span className="price-currency">{p.moneda || "USD"}</span>
+              </div>
             </div>
-            <div className="proy-sidebar-info">
-              <div>
+
+            <div className="proy-sidebar-specs">
+              <div className="spec-row">
                 <span className="k">Promotor</span>
                 <span className="v">{p.promotor}</span>
               </div>
-              <div>
+              <div className="spec-row">
+                <span className="k">Ubicación</span>
+                <span className="v">{p.ubicacion}</span>
+              </div>
+              <div className="spec-row">
                 <span className="k">Estado</span>
                 <span className="v">{p.estado}</span>
               </div>
-              <div>
+              <div className="spec-row">
                 <span className="k">Entrega</span>
                 <span className="v">{p.entrega}</span>
               </div>
-              <div>
+              <div className="spec-row">
                 <span className="k">Tipologías</span>
-                <span className="v">{p.tipologias.join(", ")}</span>
+                <span className="v">{Array.isArray(p.tipologias) ? p.tipologias.join(", ") : p.tipologias}</span>
               </div>
             </div>
-            <Link href="/#contacto" className="button dark" style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "1rem" }}>
-              Solicitar información <ArrowUpRight size={16} />
-            </Link>
-            <Link href="/#contacto" className="text-link" style={{ display: "flex", justifyContent: "center", marginTop: "0.8rem", fontSize: "0.85rem" }}>
-              Agendar una visita <ArrowUpRight size={14} />
-            </Link>
+
+            <div className="proy-sidebar-guarantee">
+              <ShieldCheck size={18} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
+              <div>
+                <b>Blindaje Jurídico GSD</b>
+                <p>Auditoría de títulos y contratos por expertos en derecho inmobiliario.</p>
+              </div>
+            </div>
+
+            <div className="proy-sidebar-actions">
+              <a 
+                href={`https://wa.me/18294937254?text=${wpMessage}`}
+                target="_blank" 
+                rel="noreferrer"
+                className="button dark full-width"
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
+              >
+                <Phone size={15} /> Contactar por WhatsApp
+              </a>
+
+              <Link 
+                href="/#contacto" 
+                className="button secondary full-width"
+                style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "8px" }}
+              >
+                <Download size={15} /> Solicitar Brochure PDF
+              </Link>
+            </div>
+
+            <div className="proy-advisor-pill">
+              <div className="advisor-avatar">EM</div>
+              <div>
+                <b style={{ fontSize: "12px", color: "var(--navy)" }}>Esteban Mejía</b>
+                <span style={{ fontSize: "11px", color: "var(--gray)", display: "block" }}>Broker & Asesor Legal GSD</span>
+              </div>
+            </div>
+
           </div>
         </aside>
+
       </div>
 
       <style>{`
         .proy-hero {
           position: relative;
-          height: 70vh;
-          min-height: 420px;
+          height: 68vh;
+          min-height: 440px;
           display: flex;
           align-items: flex-end;
         }
         .proy-hero-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.25) 55%, transparent 100%);
+          background: linear-gradient(to top, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.4) 60%, rgba(10,22,40,0.15) 100%);
           pointer-events: none;
         }
         .proy-hero-content {
           position: relative;
-          z-index: 1;
-          padding-bottom: 3rem;
+          z-index: 2;
+          padding-bottom: 2.8rem;
         }
         .proy-back {
           display: inline-flex;
           align-items: center;
-          gap: 4px;
-          color: rgba(255,255,255,0.75);
-          font-size: 0.82rem;
+          gap: 6px;
+          color: rgba(255,255,255,0.8);
+          font-size: 0.85rem;
           text-decoration: none;
           margin-bottom: 1rem;
-          letter-spacing: 0.3px;
           transition: color 0.15s;
         }
         .proy-back:hover { color: #fff; }
+        .proy-hero-eyebrow {
+          font-size: 0.85rem;
+          color: #A7F3D0;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+        }
+        .proy-hero-title {
+          color: #fff;
+          font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+          font-weight: 700;
+          line-height: 1.15;
+          margin: 0.4rem 0 1rem;
+        }
         .proy-hero-badges {
           display: flex;
-          gap: 8px;
-          margin-top: 0.8rem;
+          gap: 10px;
           flex-wrap: wrap;
         }
+        .proyecto-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(255,255,255,0.95);
+          border-radius: 20px;
+          font-size: 11.5px;
+          font-weight: 600;
+          padding: 5px 14px;
+        }
+        .proyecto-badge[data-estado="listo"] { color: #2F6B4A; background: #E8F4EF; }
+        .proyecto-badge[data-estado="construccion"] { color: #92400E; background: #FEF3C7; }
+        .proyecto-badge.dark { background: rgba(26,58,82,0.85); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+        .proyecto-badge.gold { background: rgba(245, 158, 11, 0.2); color: #FDE68A; border: 1px solid rgba(245, 158, 11, 0.4); }
+
+        /* SUB-NAV */
+        .proy-subnav-bar {
+          background: #fff;
+          border-bottom: 1px solid var(--line, #E5E7EB);
+          position: sticky;
+          top: 0;
+          z-index: 40;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .proy-subnav-inner {
+          display: flex;
+          gap: 1.5rem;
+          overflow-x: auto;
+          white-space: nowrap;
+          padding-top: 0.8rem;
+          padding-bottom: 0.8rem;
+          scrollbar-width: none;
+        }
+        .proy-subnav-inner::-webkit-scrollbar { display: none; }
+        .proy-nav-link {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--gray, #6B7280);
+          text-decoration: none;
+          transition: color 0.15s;
+        }
+        .proy-nav-link:hover { color: var(--navy, #1A3A52); }
+
+        /* LAYOUT */
         .proy-layout {
           display: grid;
-          grid-template-columns: 1fr 320px;
-          gap: 3rem;
+          grid-template-columns: 1fr 340px;
+          gap: 3.5rem;
           padding-top: 3rem;
-          padding-bottom: 4rem;
+          padding-bottom: 5rem;
           align-items: start;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 960px) {
           .proy-layout { grid-template-columns: 1fr; }
-          .proy-sidebar { order: -1; }
+          .proy-sidebar { order: -1; margin-bottom: 2rem; }
+        }
+
+        /* SECTIONS */
+        .proy-section {
+          margin-bottom: 3.5rem;
+          scroll-margin-top: 60px;
+        }
+        .proy-main-heading {
+          font-size: clamp(1.6rem, 3vw, 2.2rem);
+          color: var(--navy, #1A3A52);
+          font-weight: 700;
+          margin: 0.5rem 0 1.2rem;
+          line-height: 1.25;
         }
         .proy-intro {
-          font-size: 1.1rem;
-          line-height: 1.8;
-          color: var(--gray, #6b7280);
-          margin-bottom: 2.5rem;
+          font-size: 1.12rem;
+          line-height: 1.85;
+          color: var(--ink, #1F2937);
           border-left: 3px solid var(--green, #4A9B6F);
-          padding-left: 1.2rem;
+          padding-left: 1.4rem;
         }
         .proy-section-title {
-          font-size: 1rem;
+          font-size: 1.15rem;
           font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1.2px;
           color: var(--navy, #1A3A52);
-          margin-bottom: 1.2rem;
-          padding-bottom: 0.5rem;
+          margin-bottom: 1.5rem;
+          padding-bottom: 0.6rem;
           border-bottom: 2px solid var(--green, #4A9B6F);
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
-        .proy-gallery { margin-bottom: 2.5rem; }
+
+        /* METRICS */
+        .proy-metrics-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 16px;
+        }
+        .proy-metric-card {
+          background: #F8FAFC;
+          border: 1px solid var(--line, #E2E8F0);
+          border-radius: 12px;
+          padding: 1.2rem;
+          transition: transform 0.15s, border-color 0.15s;
+        }
+        .proy-metric-card:hover {
+          transform: translateY(-2px);
+          border-color: var(--green, #4A9B6F);
+        }
+        .metric-label {
+          font-size: 0.75rem;
+          color: var(--gray, #64748B);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          display: block;
+        }
+        .metric-value {
+          font-size: 1.4rem;
+          color: var(--navy, #1A3A52);
+          display: block;
+          margin: 4px 0;
+          font-weight: 700;
+        }
+        .metric-sub {
+          font-size: 0.8rem;
+          color: var(--green, #4A9B6F);
+          font-weight: 500;
+        }
+
+        /* TIPOLOGÍAS / UNITS */
+        .proy-units-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 20px;
+        }
+        .proy-unit-card {
+          background: #fff;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 14px;
+          overflow: hidden;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .proy-unit-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 25px rgba(26,58,82,0.08);
+        }
+        .proy-unit-image-wrap {
+          position: relative;
+          height: 180px;
+          background: #F1F5F9;
+        }
+        .unit-badge-area {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          background: rgba(26,58,82,0.85);
+          color: #fff;
+          font-size: 11px;
+          font-weight: 600;
+          padding: 3px 8px;
+          border-radius: 6px;
+        }
+        .proy-unit-body {
+          padding: 1.2rem;
+        }
+        .unit-name {
+          font-size: 1.05rem;
+          color: var(--navy, #1A3A52);
+          font-weight: 700;
+          margin-bottom: 2px;
+        }
+        .unit-habs {
+          font-size: 0.8rem;
+          color: var(--gray, #6B7280);
+          display: block;
+          margin-bottom: 8px;
+        }
+        .unit-desc {
+          font-size: 0.85rem;
+          color: var(--ink, #1F2937);
+          line-height: 1.5;
+          margin-bottom: 14px;
+        }
+        .unit-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding-top: 10px;
+          border-top: 1px solid var(--line, #E5E7EB);
+        }
+        .unit-price {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: var(--green, #4A9B6F);
+        }
+        .unit-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--navy, #1A3A52);
+          text-decoration: none;
+        }
+        .unit-cta:hover { color: var(--green, #4A9B6F); }
+
+        /* AMENIDADES */
+        .proy-amenities-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 12px;
+        }
+        .proy-amenity-card {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: #F8FAFC;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 10px;
+          padding: 10px 14px;
+        }
+        .amenity-icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #E8F4EF;
+          color: #2F6B4A;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .amenity-text {
+          font-size: 0.88rem;
+          color: var(--navy, #1A3A52);
+          font-weight: 500;
+        }
+
+        /* PAYMENT PLAN */
+        .proy-payment-section {
+          background: var(--navy, #1A3A52);
+          color: #fff;
+          border-radius: 16px;
+          padding: 2.2rem;
+        }
+        .proy-payment-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 16px;
+        }
+        .payment-step-card {
+          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.15);
+          border-radius: 12px;
+          padding: 1.2rem;
+        }
+        .step-num {
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: #94A3B8;
+          display: block;
+        }
+        .step-pct {
+          font-size: 1.6rem;
+          font-weight: 700;
+          color: #4A9B6F;
+          display: block;
+          margin: 4px 0;
+        }
+        .step-title {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #fff;
+          display: block;
+        }
+        .step-desc {
+          font-size: 0.78rem;
+          color: #CBD5E1;
+          display: block;
+          margin-top: 4px;
+        }
+
+        /* DISTANCES */
+        .proy-distances-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 12px;
+        }
+        .distance-card {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          background: #fff;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 10px;
+          padding: 12px 16px;
+          font-size: 0.88rem;
+        }
+        .dist-place {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          color: var(--navy, #1A3A52);
+          font-weight: 500;
+        }
+        .dist-time {
+          color: var(--green, #4A9B6F);
+          font-weight: 700;
+        }
+
+        /* GALLERY */
         .proy-gallery-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 10px;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
         }
         .proy-gallery-item {
           position: relative;
@@ -259,22 +830,16 @@ export default async function ProyectoDetalle({ params }) {
           border-radius: 10px;
           overflow: hidden;
         }
-        .proy-amenidades { margin-bottom: 2.5rem; }
-        .proy-amenidades-list {
-          list-style: none;
-          padding: 0;
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-          gap: 10px 20px;
+        .proy-gallery-item.featured {
+          grid-column: span 2;
+          aspect-ratio: 16/9;
         }
-        .proy-amenidades-list li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.875rem;
-          color: var(--ink, #1f2937);
+        @media (max-width: 700px) {
+          .proy-gallery-grid { grid-template-columns: 1fr; }
+          .proy-gallery-item.featured { grid-column: span 1; }
         }
-        .proy-otros { margin-bottom: 2rem; }
+
+        /* OTROS */
         .proy-otros-grid {
           display: flex;
           flex-direction: column;
@@ -282,74 +847,129 @@ export default async function ProyectoDetalle({ params }) {
         }
         .proy-otro-card {
           display: flex;
-          gap: 14px;
           align-items: center;
-          padding: 12px;
-          border-radius: 10px;
-          border: 1px solid var(--line, #e5e7eb);
+          gap: 16px;
+          padding: 12px 16px;
+          border-radius: 12px;
+          border: 1px solid var(--line, #E5E7EB);
           text-decoration: none;
-          transition: background 0.15s;
+          background: #fff;
+          transition: background 0.15s, border-color 0.15s;
         }
-        .proy-otro-card:hover { background: var(--bg, #f9fafb); }
+        .proy-otro-card:hover {
+          background: #F8FAFC;
+          border-color: var(--navy, #1A3A52);
+        }
         .proy-otro-img {
           position: relative;
-          width: 70px;
-          height: 55px;
-          border-radius: 7px;
+          width: 80px;
+          height: 60px;
+          border-radius: 8px;
           overflow: hidden;
           flex-shrink: 0;
         }
+
+        /* STICKY SIDEBAR CARD */
         .proy-sidebar-card {
           background: #fff;
-          border: 1px solid var(--line, #e5e7eb);
-          border-radius: 16px;
-          padding: 1.5rem;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 18px;
+          padding: 1.8rem;
           position: sticky;
-          top: 90px;
-          box-shadow: 0 4px 20px rgba(26,58,82,0.07);
+          top: 80px;
+          box-shadow: 0 10px 30px rgba(26,58,82,0.08);
         }
-        .proy-sidebar-precio {
-          padding-bottom: 1rem;
-          border-bottom: 1px solid var(--line, #e5e7eb);
-          margin-bottom: 1rem;
-        }
-        .proy-sidebar-precio span {
-          font-size: 11px;
-          color: var(--gray);
+        .sidebar-eyebrow {
+          font-size: 0.75rem;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 1px;
+          color: var(--gray, #6B7280);
           display: block;
+          font-weight: 600;
         }
-        .proy-sidebar-precio strong {
-          font-size: 1.6rem;
+        .proy-sidebar-price {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          margin-top: 4px;
+          padding-bottom: 1.2rem;
+          border-bottom: 1px solid var(--line, #E5E7EB);
+        }
+        .proy-sidebar-price small {
+          font-size: 0.85rem;
+          color: var(--gray, #6B7280);
+        }
+        .proy-sidebar-price strong {
+          font-size: 1.8rem;
           color: var(--navy, #1A3A52);
           font-weight: 700;
         }
-        .proy-sidebar-info {
-          display: grid;
-          gap: 0.6rem;
-          font-size: 0.82rem;
-        }
-        .proy-sidebar-info div {
-          display: grid;
-          grid-template-columns: 80px 1fr;
-          gap: 4px;
-        }
-        .proy-sidebar-info .k { color: var(--gray); }
-        .proy-sidebar-info .v { color: var(--ink, #1f2937); font-weight: 500; }
-        .proyecto-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          background: rgba(255,255,255,0.95);
-          border-radius: 20px;
-          font-size: 11px;
+        .price-currency {
+          font-size: 0.9rem;
+          color: var(--green, #4A9B6F);
           font-weight: 600;
-          padding: 4px 12px;
-          letter-spacing: 0.4px;
         }
-        .proyecto-badge[data-estado="listo"] { color: #2F6B4A; }
-        .proyecto-badge[data-estado="construccion"] { color: #B7791F; }
+        .proy-sidebar-specs {
+          padding: 1rem 0;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          font-size: 0.85rem;
+        }
+        .spec-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .spec-row .k { color: var(--gray, #6B7280); }
+        .spec-row .v { color: var(--ink, #1F2937); font-weight: 600; text-align: right; }
+        
+        .proy-sidebar-guarantee {
+          display: flex;
+          gap: 10px;
+          background: #E8F4EF;
+          border: 1px solid #CFE3D8;
+          padding: 12px;
+          border-radius: 10px;
+          margin: 0.5rem 0 1.2rem;
+          font-size: 0.8rem;
+        }
+        .proy-sidebar-guarantee b {
+          display: block;
+          color: #2F6B4A;
+          margin-bottom: 2px;
+        }
+        .proy-sidebar-guarantee p {
+          color: #2F6B4A;
+          margin: 0;
+          line-height: 1.35;
+        }
+
+        .full-width {
+          width: 100%;
+          text-align: center;
+        }
+
+        .proy-advisor-pill {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 1.2rem;
+          padding-top: 1rem;
+          border-top: 1px dashed var(--line, #E5E7EB);
+        }
+        .advisor-avatar {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background: var(--navy, #1A3A52);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 11px;
+        }
       `}</style>
     </main>
   );
