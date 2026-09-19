@@ -3,11 +3,62 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { 
   ArrowUpRight, MapPin, Calendar, Building2, CheckCircle2, ChevronLeft, 
-  ShieldCheck, Percent, Layers, Home, Phone, Download, Compass, Clock, Check
+  ShieldCheck, Percent, Layers, Home, Phone, Download, Compass, Clock, Check,
+  Waves, Dumbbell, Sparkles, BellRing, Palmtree, Sun, Laptop, UtensilsCrossed,
+  Car, Wine, Coffee, Wifi, Trees, Flame, Tv, Lock, HeartHandshake, Anchor, Plane, Footprints, Droplets
 } from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
 
 export const dynamic = "force-dynamic";
+
+function getAmenityIcon(item) {
+  const text = (typeof item === "string" ? item : item?.name || "").toLowerCase();
+  const iconProps = { size: 18, strokeWidth: 2 };
+  
+  if (text.includes("piscina") || text.includes("pool") || text.includes("jacuzzi") || text.includes("agua")) {
+    return <Waves {...iconProps} style={{ color: "#0284C7" }} />;
+  }
+  if (text.includes("gym") || text.includes("fitness") || text.includes("ejercicio") || text.includes("wellness")) {
+    return <Dumbbell {...iconProps} style={{ color: "#D97706" }} />;
+  }
+  if (text.includes("spa") || text.includes("sauna") || text.includes("masaje") || text.includes("relax")) {
+    return <Sparkles {...iconProps} style={{ color: "#8B5CF6" }} />;
+  }
+  if (text.includes("concierge") || text.includes("recepci") || text.includes("lobby") || text.includes("asistencia")) {
+    return <BellRing {...iconProps} style={{ color: "#2563EB" }} />;
+  }
+  if (text.includes("playa") || text.includes("beach") || text.includes("mar") || text.includes("costa")) {
+    return <Palmtree {...iconProps} style={{ color: "#059669" }} />;
+  }
+  if (text.includes("coworking") || text.includes("business") || text.includes("oficina") || text.includes("lounge")) {
+    return <Laptop {...iconProps} style={{ color: "#1A3A52" }} />;
+  }
+  if (text.includes("seguridad") || text.includes("camara") || text.includes("vigilancia") || text.includes("acceso")) {
+    return <ShieldCheck {...iconProps} style={{ color: "#4A9B6F" }} />;
+  }
+  if (text.includes("restaurante") || text.includes("bar") || text.includes("gourmet") || text.includes("comida")) {
+    return <UtensilsCrossed {...iconProps} style={{ color: "#EA580C" }} />;
+  }
+  if (text.includes("parqueo") || text.includes("estacionamiento") || text.includes("garaje") || text.includes("valet") || text.includes("vehiculo")) {
+    return <Car {...iconProps} style={{ color: "#475569" }} />;
+  }
+  if (text.includes("jardin") || text.includes("sender") || text.includes("parque") || text.includes("verde") || text.includes("naturaleza")) {
+    return <Trees {...iconProps} style={{ color: "#16A34A" }} />;
+  }
+  if (text.includes("marina") || text.includes("muelle") || text.includes("bote") || text.includes("yate")) {
+    return <Anchor {...iconProps} style={{ color: "#0284C7" }} />;
+  }
+  if (text.includes("helipuerto") || text.includes("helipad") || text.includes("aeropuerto")) {
+    return <Plane {...iconProps} style={{ color: "#475569" }} />;
+  }
+  if (text.includes("bbq") || text.includes("parrilla") || text.includes("rooftop") || text.includes("terraza")) {
+    return <Flame {...iconProps} style={{ color: "#DC2626" }} />;
+  }
+  if (text.includes("wifi") || text.includes("internet") || text.includes("domotica") || text.includes("smart")) {
+    return <Wifi {...iconProps} style={{ color: "#2563EB" }} />;
+  }
+  return <Sparkles {...iconProps} style={{ color: "var(--green, #4A9B6F)" }} />;
+}
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -257,10 +308,10 @@ export default async function ProyectoDetalle({ params }) {
                   <div className="proy-amenities-grid">
                     {(b.items || []).map((amenity, i) => (
                       <div key={i} className="proy-amenity-card">
-                        <div className="amenity-icon">
-                          <Check size={14} />
+                        <div className="amenity-icon-wrap">
+                          {getAmenityIcon(amenity)}
                         </div>
-                        <span className="amenity-text">{amenity}</span>
+                        <span className="amenity-text">{typeof amenity === "string" ? amenity : amenity?.name}</span>
                       </div>
                     ))}
                   </div>
@@ -713,36 +764,47 @@ export default async function ProyectoDetalle({ params }) {
         }
         .unit-cta:hover { color: var(--green, #4A9B6F); }
 
-        /* AMENIDADES */
+        /* AMENIDADES LUXURY */
         .proy-amenities-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 12px;
+          grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+          gap: 14px;
         }
         .proy-amenity-card {
           display: flex;
           align-items: center;
-          gap: 10px;
-          background: #F8FAFC;
-          border: 1px solid var(--line, #E5E7EB);
-          border-radius: 10px;
-          padding: 10px 14px;
+          gap: 12px;
+          background: #FFFFFF;
+          border: 1px solid var(--line, #E2E8F0);
+          border-radius: 12px;
+          padding: 12px 16px;
+          box-shadow: 0 2px 8px rgba(26,58,82,0.03);
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .amenity-icon {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: #E8F4EF;
-          color: #2F6B4A;
+        .proy-amenity-card:hover {
+          transform: translateY(-2px);
+          border-color: var(--green, #4A9B6F);
+          box-shadow: 0 6px 18px rgba(26,58,82,0.08);
+        }
+        .amenity-icon-wrap {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          background: #F1F5F9;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          transition: background 0.2s;
+        }
+        .proy-amenity-card:hover .amenity-icon-wrap {
+          background: #E8F4EF;
         }
         .amenity-text {
-          font-size: 0.88rem;
+          font-size: 0.92rem;
           color: var(--navy, #1A3A52);
-          font-weight: 500;
+          font-weight: 600;
+          letter-spacing: -0.2px;
         }
 
         /* PAYMENT PLAN */
