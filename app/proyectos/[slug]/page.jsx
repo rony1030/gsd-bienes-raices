@@ -197,7 +197,7 @@ export default async function ProyectoDetalle({ params }) {
               className="proyecto-badge"
               data-estado={p.estado === "Entrega inmediata" ? "listo" : "construccion"}
             >
-              {p.estado === "Entrega inmediata" ? "✓ Entrega inmediata" : "⬤ En construcción"}
+              {p.estado}
             </span>
             <span className="proyecto-badge dark">
               <Calendar size={13} /> Entrega {p.entrega}

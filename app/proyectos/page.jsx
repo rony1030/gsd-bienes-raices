@@ -51,7 +51,7 @@ export default async function Proyectos() {
                   className="proyecto-badge"
                   data-estado={p.estado === "Entrega inmediata" ? "listo" : "construccion"}
                 >
-                  {p.estado === "Entrega inmediata" ? "✓ Entrega inmediata" : `⬤ En construcción`}
+                  {p.estado}
                 </span>
               </Link>
               <div className="proyecto-body">
