@@ -30,9 +30,8 @@ export default async function Blog() {
             </div>
             <span className="eyebrow">{post.category || 'Inversión'}</span>
             <h2>{post.title}</h2>
-            <p>{post.excerpt || post.content?.substring(0, 140) + '...'}</p>
-            <Link className="text-link" href="/#contacto">
-              Conocer más <ArrowUpRight size={18} />
+            <Link className="text-link" href={`/blog/${post.slug || ''}`}>
+              Leer artículo <ArrowUpRight size={18} />
             </Link>
           </article>
         ))}
