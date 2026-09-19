@@ -300,7 +300,7 @@ export default async function ProyectoDetalle({ params }) {
                   <div className="proy-distances-grid">
                     {(b.points || []).map((pt, i) => (
                       <div key={i} className="distance-card">
-                        <div style="display:flex;align-items:center;gap:8px" className="dist-place">
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }} className="dist-place">
                           <Compass size={16} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
                           <span>{pt.place}</span>
                         </div>
