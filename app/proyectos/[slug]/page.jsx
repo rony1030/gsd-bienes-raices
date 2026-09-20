@@ -9,7 +9,7 @@ import {
   Briefcase, Users, Flower2
 } from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
-import { ProjectLeadCard, CustomPaymentPlanButton } from "@/components/site.jsx";
+import { ProjectLeadCard, CustomPaymentPlanButton, ProjectSubNav } from "@/components/site.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -208,18 +208,8 @@ export default async function ProyectoDetalle({ params }) {
         </div>
       </section>
 
-      {/* SUB-NAV ANCHOR BAR */}
-      <nav className="proy-subnav-bar">
-        <div className="container proy-subnav-inner">
-          <a href="#vision" className="proy-nav-link">Visión General</a>
-          <a href="#metricas" className="proy-nav-link">Métricas</a>
-          <a href="#tipologias" className="proy-nav-link">Tipologías & Planos</a>
-          <a href="#amenidades" className="proy-nav-link">Amenidades</a>
-          <a href="#plan-pago" className="proy-nav-link">Plan de Pago</a>
-          <a href="#ubicacion" className="proy-nav-link">Ubicación</a>
-          {p.galeria?.length > 0 && <a href="#galeria" className="proy-nav-link">Galería</a>}
-        </div>
-      </nav>
+      {/* SUB-NAV ANCHOR BAR CON SMOOTH SCROLL Y OFFSET EXACTO */}
+      <ProjectSubNav hasGallery={Boolean(p.galeria?.length > 0)} />
 
       {/* MAIN LAYOUT */}
       <div className="container proy-layout">
@@ -546,7 +536,7 @@ export default async function ProyectoDetalle({ params }) {
 
         /* SUB-NAV - LUXURY PILLS / TABS */
         .proy-subnav-bar {
-          background: rgba(255, 255, 255, 0.96);
+          background: rgba(255, 255, 255, 0.98);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border-bottom: 1px solid #E2E8F0;
@@ -558,35 +548,43 @@ export default async function ProyectoDetalle({ params }) {
         .proy-subnav-inner {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
           overflow-x: auto;
           white-space: nowrap;
           padding: 10px 0;
           scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
         }
         .proy-subnav-inner::-webkit-scrollbar { display: none; }
         .proy-nav-link {
+          font-family: inherit;
           font-size: 0.82rem;
-          font-weight: 500;
+          font-weight: 600;
           letter-spacing: 0.2px;
-          color: #475569;
+          color: #64748B;
           text-decoration: none;
-          padding: 7px 15px;
-          border-radius: 6px;
+          padding: 8px 16px;
+          border-radius: 8px;
           background: transparent;
           border: 1px solid transparent;
+          cursor: pointer;
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          white-space: nowrap;
+          user-select: none;
         }
         .proy-nav-link:hover {
-          color: var(--navy, #1A3A52);
-          background: #F1F5F9;
+          color: #1A3A52;
+          background: #F8FAFC;
           border-color: #E2E8F0;
         }
-        .proy-nav-link:active {
-          background: #E2E8F0;
+        .proy-nav-link.active {
+          color: #0D9488;
+          background: #E8F4EF;
+          border-color: rgba(13, 148, 136, 0.3);
+          font-weight: 700;
         }
 
-        /* LAYOUT */
+        /* LAYOUT & RESPONSIVE ORDER */
         .proy-layout {
           display: grid;
           grid-template-columns: 1fr 340px;
@@ -595,15 +593,32 @@ export default async function ProyectoDetalle({ params }) {
           padding-bottom: 5rem;
           align-items: start;
         }
+        .proy-content {
+          min-width: 0;
+        }
         @media (max-width: 960px) {
-          .proy-layout { grid-template-columns: 1fr; }
-          .proy-sidebar { order: -1; margin-bottom: 2rem; }
+          .proy-layout { 
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            padding-top: 1.5rem;
+          }
+          /* El contenido del proyecto aparece PRIMERO en móvil; el agente/formulario queda abajo */
+          .proy-content { 
+            order: 1; 
+            width: 100%;
+          }
+          .proy-sidebar { 
+            order: 2; 
+            width: 100%;
+            margin-top: 1rem;
+          }
         }
 
         /* SECTIONS */
         .proy-section {
           margin-bottom: 3.5rem;
-          scroll-margin-top: 60px;
+          scroll-margin-top: 140px;
         }
         .proy-main-heading {
           font-size: clamp(1.6rem, 3vw, 2.2rem);

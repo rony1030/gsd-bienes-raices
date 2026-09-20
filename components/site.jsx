@@ -1148,4 +1148,86 @@ export function CustomPaymentPlanButton({ projectName = "" }) {
   );
 }
 
+export function ProjectSubNav({ hasGallery = false }) {
+  const [activeSection, setActiveSection] = useState("vision");
+  const navContainerRef = useRef(null);
+
+  const navItems = [
+    { id: "vision", label: "Visión General" },
+    { id: "metricas", label: "Métricas" },
+    { id: "tipologias", label: "Tipologías & Planos" },
+    { id: "amenidades", label: "Amenidades" },
+    { id: "plan-pago", label: "Plan de Pago" },
+    { id: "ubicacion", label: "Ubicación" },
+    ...(hasGallery ? [{ id: "galeria", label: "Galería" }] : []),
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 160;
+      for (let i = navItems.length - 1; i >= 0; i--) {
+        const el = document.getElementById(navItems[i].id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (scrollPos >= top) {
+            setActiveSection(navItems[i].id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasGallery]);
+
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    // Medir altura real del header fijo y la subnav bar
+    const headerEl = document.querySelector(".header");
+    const subnavEl = document.querySelector(".proy-subnav-bar");
+    const headerH = headerEl ? headerEl.offsetHeight : 80;
+    const subnavH = subnavEl ? subnavEl.offsetHeight : 50;
+    const totalOffset = headerH + subnavH + 12;
+
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - totalOffset;
+
+    window.scrollTo({
+      top: Math.max(0, offsetPosition),
+      behavior: "smooth"
+    });
+    setActiveSection(id);
+
+    // Auto-scroll horizontal de la pestaña seleccionada en pantallas pequeñas
+    if (navContainerRef.current) {
+      const btn = navContainerRef.current.querySelector(`[data-id="${id}"]`);
+      if (btn) {
+        btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      }
+    }
+  };
+
+  return (
+    <nav className="proy-subnav-bar">
+      <div className="container proy-subnav-inner" ref={navContainerRef}>
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            data-id={item.id}
+            type="button"
+            onClick={(e) => scrollToSection(e, item.id)}
+            className={`proy-nav-link ${activeSection === item.id ? "active" : ""}`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
 
