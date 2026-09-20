@@ -326,8 +326,8 @@ export default async function ProyectoDetalle({ params }) {
                   <h3 className="proy-section-title" style={{ color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}>
                     {b.title}
                   </h3>
-                  <p style={{ color: "#CBD5E1", fontSize: "0.9rem", marginBottom: "1.5rem" }}>
-                    Estructura de pagos escalonada adaptada a inversionistas locales e internacionales.
+                  <p style={{ color: "#CBD5E1", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
+                    Solicita tu plan de pago acorde a tu capacidad de pago. Estructura escalonada adaptada a inversionistas locales e internacionales.
                   </p>
                   <div className="proy-payment-grid">
                     {(b.steps || []).map((step, i) => (
