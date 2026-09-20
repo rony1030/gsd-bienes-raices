@@ -5,7 +5,8 @@ import {
   ArrowUpRight, MapPin, Calendar, Building2, CheckCircle2, ChevronLeft, 
   ShieldCheck, Percent, Layers, Home, Phone, Download, Compass, Clock, Check,
   Waves, Dumbbell, Sparkles, BellRing, Palmtree, Sun, Laptop, UtensilsCrossed,
-  Car, Wine, Coffee, Wifi, Trees, Flame, Tv, Lock, HeartHandshake, Anchor, Plane, Footprints, Droplets
+  Car, Wine, Coffee, Wifi, Trees, Flame, Tv, Lock, HeartHandshake, Anchor, Plane, Footprints, Droplets,
+  Briefcase, Users, Flower2
 } from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
 
@@ -13,51 +14,51 @@ export const dynamic = "force-dynamic";
 
 function getAmenityIcon(item) {
   const text = (typeof item === "string" ? item : item?.name || "").toLowerCase();
-  const iconProps = { size: 18, strokeWidth: 2 };
+  const iconProps = { size: 18, strokeWidth: 1.8, style: { color: "var(--navy, #1A3A52)" } };
   
   if (text.includes("piscina") || text.includes("pool") || text.includes("jacuzzi") || text.includes("agua")) {
-    return <Waves {...iconProps} style={{ color: "#0284C7" }} />;
+    return <Waves {...iconProps} />;
   }
   if (text.includes("gym") || text.includes("fitness") || text.includes("ejercicio") || text.includes("wellness")) {
-    return <Dumbbell {...iconProps} style={{ color: "#D97706" }} />;
+    return <Dumbbell {...iconProps} />;
   }
   if (text.includes("spa") || text.includes("sauna") || text.includes("masaje") || text.includes("relax")) {
-    return <Sparkles {...iconProps} style={{ color: "#8B5CF6" }} />;
+    return <Flower2 {...iconProps} />;
   }
   if (text.includes("concierge") || text.includes("recepci") || text.includes("lobby") || text.includes("asistencia")) {
-    return <BellRing {...iconProps} style={{ color: "#2563EB" }} />;
+    return <BellRing {...iconProps} />;
   }
   if (text.includes("playa") || text.includes("beach") || text.includes("mar") || text.includes("costa")) {
-    return <Palmtree {...iconProps} style={{ color: "#059669" }} />;
+    return <Sun {...iconProps} />;
   }
   if (text.includes("coworking") || text.includes("business") || text.includes("oficina") || text.includes("lounge")) {
-    return <Laptop {...iconProps} style={{ color: "#1A3A52" }} />;
+    return <Briefcase {...iconProps} />;
   }
   if (text.includes("seguridad") || text.includes("camara") || text.includes("vigilancia") || text.includes("acceso")) {
-    return <ShieldCheck {...iconProps} style={{ color: "#4A9B6F" }} />;
+    return <ShieldCheck {...iconProps} />;
   }
   if (text.includes("restaurante") || text.includes("bar") || text.includes("gourmet") || text.includes("comida")) {
-    return <UtensilsCrossed {...iconProps} style={{ color: "#EA580C" }} />;
+    return <UtensilsCrossed {...iconProps} />;
   }
   if (text.includes("parqueo") || text.includes("estacionamiento") || text.includes("garaje") || text.includes("valet") || text.includes("vehiculo")) {
-    return <Car {...iconProps} style={{ color: "#475569" }} />;
+    return <Car {...iconProps} />;
   }
   if (text.includes("jardin") || text.includes("sender") || text.includes("parque") || text.includes("verde") || text.includes("naturaleza")) {
-    return <Trees {...iconProps} style={{ color: "#16A34A" }} />;
+    return <Trees {...iconProps} />;
   }
   if (text.includes("marina") || text.includes("muelle") || text.includes("bote") || text.includes("yate")) {
-    return <Anchor {...iconProps} style={{ color: "#0284C7" }} />;
+    return <Anchor {...iconProps} />;
   }
   if (text.includes("helipuerto") || text.includes("helipad") || text.includes("aeropuerto")) {
-    return <Plane {...iconProps} style={{ color: "#475569" }} />;
+    return <Plane {...iconProps} />;
   }
   if (text.includes("bbq") || text.includes("parrilla") || text.includes("rooftop") || text.includes("terraza")) {
-    return <Flame {...iconProps} style={{ color: "#DC2626" }} />;
+    return <Flame {...iconProps} />;
   }
   if (text.includes("wifi") || text.includes("internet") || text.includes("domotica") || text.includes("smart")) {
-    return <Wifi {...iconProps} style={{ color: "#2563EB" }} />;
+    return <Wifi {...iconProps} />;
   }
-  return <Sparkles {...iconProps} style={{ color: "var(--green, #4A9B6F)" }} />;
+  return <Building2 {...iconProps} />;
 }
 
 export async function generateMetadata({ params }) {
@@ -193,17 +194,14 @@ export default async function ProyectoDetalle({ params }) {
             {p.nombre}
           </h1>
           <div className="proy-hero-badges">
-            <span
-              className="proyecto-badge"
-              data-estado={p.estado === "Entrega inmediata" ? "listo" : "construccion"}
-            >
+            <span className="proy-tag-pill">
               {p.estado}
             </span>
-            <span className="proyecto-badge dark">
-              <Calendar size={13} /> Entrega {p.entrega}
+            <span className="proy-tag-pill">
+              Entrega {p.entrega}
             </span>
-            <span className="proyecto-badge gold">
-              <ShieldCheck size={13} /> Asesoría Legal Incluida
+            <span className="proy-tag-pill">
+              Soporte Legal GSD
             </span>
           </div>
         </div>
@@ -322,20 +320,20 @@ export default async function ProyectoDetalle({ params }) {
             // 4. PLAN DE PAGO
             if (b.type === "plan_pago") {
               return (
-                <section key={b.id || bIdx} id="plan-pago" className="proy-section proy-payment-section">
-                  <h3 className="proy-section-title" style={{ color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}>
+                <section key={b.id || bIdx} id="plan-pago" className="proy-section proy-payment-section-white">
+                  <h3 className="proy-section-title">
                     {b.title}
                   </h3>
-                  <p style={{ color: "#CBD5E1", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
+                  <p style={{ color: "#64748B", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
                     Solicita tu plan de pago acorde a tu capacidad de pago. Estructura escalonada adaptada a inversionistas locales e internacionales.
                   </p>
-                  <div className="proy-payment-grid">
+                  <div className="proy-payment-grid-white">
                     {(b.steps || []).map((step, i) => (
-                      <div key={i} className="payment-step-card">
-                        <span className="step-num">Hito 0{i + 1}</span>
-                        <strong className="step-pct">{step.pct}</strong>
-                        <span className="step-title">{step.title}</span>
-                        <small className="step-desc">{step.desc}</small>
+                      <div key={i} className="payment-step-card-white">
+                        <span className="step-num-white">Hito 0{i + 1}</span>
+                        <strong className="step-pct-white">{step.pct}</strong>
+                        <span className="step-title-white">{step.title}</span>
+                        <small className="step-desc-white">{step.desc}</small>
                       </div>
                     ))}
                   </div>
@@ -561,20 +559,21 @@ export default async function ProyectoDetalle({ params }) {
           gap: 10px;
           flex-wrap: wrap;
         }
-        .proyecto-badge {
+        .proy-tag-pill {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          background: rgba(255,255,255,0.95);
-          border-radius: 20px;
-          font-size: 11.5px;
-          font-weight: 600;
-          padding: 5px 14px;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: #FFFFFF;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          padding: 5px 12px;
         }
-        .proyecto-badge[data-estado="listo"] { color: #2F6B4A; background: #E8F4EF; }
-        .proyecto-badge[data-estado="construccion"] { color: #92400E; background: #FEF3C7; }
-        .proyecto-badge.dark { background: rgba(26,58,82,0.85); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-        .proyecto-badge.gold { background: rgba(245, 158, 11, 0.2); color: #FDE68A; border: 1px solid rgba(245, 158, 11, 0.4); }
 
         /* SUB-NAV */
         .proy-subnav-bar {
@@ -767,89 +766,100 @@ export default async function ProyectoDetalle({ params }) {
         /* AMENIDADES LUXURY */
         .proy-amenities-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-          gap: 14px;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+          gap: 12px;
         }
         .proy-amenity-card {
           display: flex;
           align-items: center;
           gap: 12px;
-          background: #FFFFFF;
-          border: 1px solid var(--line, #E2E8F0);
-          border-radius: 12px;
-          padding: 12px 16px;
-          box-shadow: 0 2px 8px rgba(26,58,82,0.03);
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          background: #fff;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 10px;
+          padding: 12px 14px;
+          transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
         .proy-amenity-card:hover {
           transform: translateY(-2px);
-          border-color: var(--green, #4A9B6F);
-          box-shadow: 0 6px 18px rgba(26,58,82,0.08);
+          border-color: #CBD5E1;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
         .amenity-icon-wrap {
           width: 38px;
           height: 38px;
-          border-radius: 10px;
-          background: #F1F5F9;
+          border-radius: 8px;
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          transition: background 0.2s;
+          transition: all 0.2s;
         }
         .proy-amenity-card:hover .amenity-icon-wrap {
-          background: #E8F4EF;
+          background: #F1F5F9;
+          border-color: #CBD5E1;
         }
         .amenity-text {
-          font-size: 0.92rem;
+          font-size: 0.88rem;
           color: var(--navy, #1A3A52);
-          font-weight: 600;
-          letter-spacing: -0.2px;
+          font-weight: 500;
+          letter-spacing: -0.1px;
         }
 
-        /* PAYMENT PLAN */
-        .proy-payment-section {
-          background: var(--navy, #1A3A52);
-          color: #fff;
-          border-radius: 16px;
-          padding: 2.2rem;
-        }
-        .proy-payment-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-          gap: 16px;
-        }
-        .payment-step-card {
-          background: rgba(255,255,255,0.07);
-          border: 1px solid rgba(255,255,255,0.15);
+        /* PAYMENT PLAN - CLEAN WHITE CORPORATE */
+        .proy-payment-section-white {
+          background: #FFFFFF;
+          border: 1px solid var(--line, #E5E7EB);
           border-radius: 12px;
-          padding: 1.2rem;
+          padding: 2rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        .step-num {
+        .proy-payment-grid-white {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+          gap: 14px;
+        }
+        .payment-step-card-white {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 8px;
+          padding: 1.2rem;
+          transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .payment-step-card-white:hover {
+          transform: translateY(-2px);
+          border-color: #CBD5E1;
+          background: #FFFFFF;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+        .step-num-white {
           font-size: 0.7rem;
           text-transform: uppercase;
-          letter-spacing: 1px;
+          letter-spacing: 0.8px;
           color: #94A3B8;
-          display: block;
-        }
-        .step-pct {
-          font-size: 1.6rem;
-          font-weight: 700;
-          color: #4A9B6F;
-          display: block;
-          margin: 4px 0;
-        }
-        .step-title {
-          font-size: 0.9rem;
           font-weight: 600;
-          color: #fff;
           display: block;
         }
-        .step-desc {
+        .step-pct-white {
+          font-size: 1.55rem;
+          font-weight: 700;
+          color: var(--navy, #1A3A52);
+          display: block;
+          margin: 6px 0 2px;
+        }
+        .step-title-white {
+          font-size: 0.88rem;
+          font-weight: 600;
+          color: #334155;
+          display: block;
+        }
+        .step-desc-white {
           font-size: 0.78rem;
-          color: #CBD5E1;
+          color: #64748B;
           display: block;
           margin-top: 4px;
+          line-height: 1.4;
         }
 
         /* DISTANCES */
