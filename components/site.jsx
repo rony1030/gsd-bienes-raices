@@ -865,7 +865,22 @@ export function ProjectLeadCard({ project, formattedPrice }) {
 
   return (
     <div className="lead-card-box">
-      {/* PRECIO */}
+      {/* 1. ASESOR INMOBILIARIO CON FOTO GRANDE Y CENTRADA AL INICIO */}
+      <div className="lead-card-agent-hero">
+        <div className="agent-avatar-wrap-large">
+          <img 
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" 
+            alt="Esteban Mejía" 
+            className="agent-avatar-img"
+          />
+        </div>
+        <div className="agent-info-hero">
+          <strong className="agent-name-hero">Esteban Mejía</strong>
+          <span className="agent-role-hero">Asesor Inmobiliario & Jurídico</span>
+        </div>
+      </div>
+
+      {/* 2. PRECIO */}
       <div className="lead-card-price-block">
         <span className="lead-card-price-label">PRECIO</span>
         <div className="lead-card-price-val">
@@ -873,7 +888,7 @@ export function ProjectLeadCard({ project, formattedPrice }) {
         </div>
       </div>
 
-      {/* METRICAS RAPIDAS */}
+      {/* 3. METRICAS RAPIDAS */}
       <div className="lead-card-specs-grid">
         <div className="lead-spec-item">
           <span className="spec-k">Entrega</span>
@@ -890,21 +905,6 @@ export function ProjectLeadCard({ project, formattedPrice }) {
         <div className="lead-spec-item">
           <span className="spec-k">Ley Confotur</span>
           <span className="spec-v">15 Años Exento</span>
-        </div>
-      </div>
-
-      {/* ASESOR INMOBILIARIO CON FOTO */}
-      <div className="lead-card-agent">
-        <div className="agent-avatar-wrap">
-          <img 
-            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=240&q=80" 
-            alt="Esteban Mejía" 
-            className="agent-avatar-img"
-          />
-        </div>
-        <div className="agent-info">
-          <strong className="agent-name">Esteban Mejía</strong>
-          <span className="agent-role">Asesor Inmobiliario & Jurídico</span>
         </div>
       </div>
 

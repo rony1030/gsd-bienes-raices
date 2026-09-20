@@ -325,9 +325,14 @@ export default async function ProyectoDetalle({ params }) {
                   <h3 className="proy-section-title">
                     {b.title}
                   </h3>
-                  <p style={{ color: "#64748B", fontSize: "0.95rem", marginBottom: "1.5rem" }}>
-                    Solicita tu plan de pago acorde a tu capacidad de pago. Estructura escalonada adaptada a inversionistas locales e internacionales.
-                  </p>
+                  <div style={{ margin: "0.4rem 0 1.5rem" }}>
+                    <strong style={{ display: "block", color: "var(--navy, #1A3A52)", fontSize: "1.05rem", fontWeight: "700", marginBottom: "4px" }}>
+                      Solicita el plan de pago acorde a tu capacidad de pago
+                    </strong>
+                    <span style={{ color: "#64748B", fontSize: "0.9rem" }}>
+                      Estructura de pagos escalonada adaptada a inversionistas locales e internacionales.
+                    </span>
+                  </div>
                   <div className="proy-payment-grid-white">
                     {(b.steps || []).map((step, i) => (
                       <div key={i} className="payment-step-card-white">

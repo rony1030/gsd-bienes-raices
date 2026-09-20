@@ -2611,41 +2611,46 @@ footer {
   margin-top: 1px;
 }
 
-/* AGENTE CON FOTO */
-.lead-card-agent {
+/* AGENTE CON FOTO GRANDE Y CENTRADA AL INICIO */
+.lead-card-agent-hero {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 12px 0 16px;
+  text-align: center;
+  padding-bottom: 20px;
   border-bottom: 1px solid #F1F5F9;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
-.agent-avatar-wrap {
-  width: 52px;
-  height: 52px;
+.agent-avatar-wrap-large {
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #E2E8F0;
-  flex-shrink: 0;
+  border: 3px solid #E2E8F0;
+  box-shadow: 0 4px 14px rgba(26, 58, 82, 0.08);
+  margin-bottom: 12px;
 }
 .agent-avatar-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.agent-info {
+.agent-info-hero {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
-.agent-name {
-  font-size: 14.5px;
+.agent-name-hero {
+  font-size: 18px;
   font-weight: 700;
   color: #1A3A52;
+  letter-spacing: -0.3px;
 }
-.agent-role {
-  font-size: 11.5px;
+.agent-role-hero {
+  font-size: 12px;
   color: #64748B;
   font-weight: 500;
+  margin-top: 2px;
 }
 
 /* FORMULARIO */
