@@ -9,7 +9,7 @@ import {
   Briefcase, Users, Flower2
 } from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
-import { ProjectLeadCard } from "@/components/site.jsx";
+import { ProjectLeadCard, CustomPaymentPlanButton } from "@/components/site.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -343,6 +343,8 @@ export default async function ProyectoDetalle({ params }) {
                       </div>
                     ))}
                   </div>
+
+                  <CustomPaymentPlanButton projectName={p.nombre} />
                 </section>
               );
             }

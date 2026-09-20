@@ -963,7 +963,7 @@ export function ProjectLeadCard({ project, formattedPrice }) {
             className="lead-submit-btn"
             disabled={state === "sending"}
           >
-            {state === "sending" ? "ENVIANDO..." : state === "success" ? "✓ SOLICITUD ENVIADA" : "➤ SOLICITAR ASISTENCIA"}
+            {state === "sending" ? "ENVIANDO..." : state === "success" ? "SOLICITUD ENVIADA" : "SOLICITAR ASISTENCIA"}
           </button>
 
           {feedback && (
@@ -983,4 +983,169 @@ export function ProjectLeadCard({ project, formattedPrice }) {
     </div>
   );
 }
+
+export function CustomPaymentPlanButton({ projectName = "" }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [state, setState] = useState("idle");
+  const [feedback, setFeedback] = useState("");
+
+  async function submit(e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setState("sending");
+    setFeedback("");
+
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          budget: data.get("budget"),
+          purpose: data.get("purpose"),
+          location: data.get("location"),
+          paymentVision: data.get("paymentVision"),
+          message: data.get("message") || "",
+          service: `Plan de Pago a Medida: ${projectName || "General"}`,
+          clientType: "Bienes Raíces",
+          formSource: `Plan de Pago a Medida (${projectName || "Proyecto"})`
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+      setState("success");
+      setFeedback("Hemos recibido su solicitud formal. Un asesor directivo se comunicará con usted a la mayor brevedad.");
+      form.reset();
+    } catch (error) {
+      setState("error");
+      setFeedback(error.message || "No se pudo procesar la solicitud. Intente nuevamente.");
+    }
+  }
+
+  return (
+    <>
+      <div className="custom-plan-trigger-wrap">
+        <button 
+          type="button" 
+          onClick={() => setIsOpen(true)}
+          className="custom-plan-trigger-btn"
+        >
+          Solicitar Plan de Pago a Tu Capacidad
+        </button>
+        <span className="custom-plan-trigger-hint">
+          Diseñamos una propuesta personalizada según su flujo de ingresos y metas de inversión.
+        </span>
+      </div>
+
+      {isOpen && (
+        <div className="custom-modal-overlay" onClick={() => setIsOpen(false)}>
+          <div className="custom-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="custom-modal-header">
+              <div>
+                <span className="modal-eyebrow">Asesoría Patrimonial Personalizada</span>
+                <h3 className="modal-title">Estructura Tu Plan de Pago a Medida</h3>
+                <p className="modal-subtitle">
+                  {projectName ? `Proyecto de Referencia: ${projectName}` : "Indícanos tus requerimientos para estructurar una propuesta adaptada a tu visión."}
+                </p>
+              </div>
+              <button 
+                type="button" 
+                className="modal-close-btn" 
+                onClick={() => setIsOpen(false)}
+                aria-label="Cerrar formulario"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={submit} className="custom-modal-body">
+              <div className="form-grid-2">
+                <div className="modal-input-field">
+                  <label>Nombre y Apellido *</label>
+                  <input name="name" placeholder="Ej. Roberto Gómez" required disabled={state === "sending"} />
+                </div>
+
+                <div className="modal-input-field">
+                  <label>Teléfono / WhatsApp *</label>
+                  <input name="phone" type="tel" placeholder="Ej. +1 (809) 000-0000" required disabled={state === "sending"} />
+                </div>
+              </div>
+
+              <div className="form-grid-2">
+                <div className="modal-input-field">
+                  <label>Correo Electrónico (Para envío de confirmación) *</label>
+                  <input name="email" type="email" placeholder="roberto@correo.com" required disabled={state === "sending"} />
+                </div>
+
+                <div className="modal-input-field">
+                  <label>Presupuesto Estimado de Inversión *</label>
+                  <input name="budget" placeholder="Ej. US$ 150,000 - US$ 220,000" required disabled={state === "sending"} />
+                </div>
+              </div>
+
+              <div className="form-grid-2">
+                <div className="modal-input-field">
+                  <label>Objetivo Principal *</label>
+                  <select name="purpose" required disabled={state === "sending"}>
+                    <option value="Inversión y Rentabilidad (Alquiler vacacional)">Invertir por Rentabilidad (Airbnb / Retorno)</option>
+                    <option value="Vivienda Principal o Segunda Residencia">Comprar para Vivir o Vacacionar</option>
+                    <option value="Plusvalía patrimonial a futuro">Plusvalía patrimonial (Compra en planos)</option>
+                    <option value="Diversificación de patrimonio">Diversificación de patrimonio en dólares</option>
+                  </select>
+                </div>
+
+                <div className="modal-input-field">
+                  <label>Zona o Ubicación Preferida *</label>
+                  <input name="location" placeholder="Ej. Bávaro, Cap Cana, Santo Domingo, Las Terrenas" required disabled={state === "sending"} />
+                </div>
+              </div>
+
+              <div className="modal-input-field">
+                <label>¿Cómo visualizas tu estructura de pago deseada? *</label>
+                <textarea 
+                  name="paymentVision" 
+                  rows={3} 
+                  placeholder="Detalla tu preferencia: cuota inicial disponible, plazo deseado durante construcción, cuotas mensuales que se adapten a tu capacidad, financiamiento bancario contra entrega, etc."
+                  required 
+                  disabled={state === "sending"}
+                />
+              </div>
+
+              <div className="modal-input-field">
+                <label>Comentarios Adicionales (Opcional)</label>
+                <textarea 
+                  name="message" 
+                  rows={2} 
+                  placeholder="Cualquier requerimiento específico sobre habitaciones, amenidades o condiciones jurídicas..."
+                  disabled={state === "sending"}
+                />
+              </div>
+
+              <div className="modal-actions-bar">
+                <button 
+                  type="submit" 
+                  className="modal-submit-btn"
+                  disabled={state === "sending"}
+                >
+                  {state === "sending" ? "PROCESANDO SOLICITUD..." : state === "success" ? "SOLICITUD ENVIADA CON ÉXITO" : "ENVIAR SOLICITUD DE PLAN A MEDIDA"}
+                </button>
+              </div>
+
+              {feedback && (
+                <div className={`modal-feedback-alert ${state}`}>
+                  {feedback}
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 

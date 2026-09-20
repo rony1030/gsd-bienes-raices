@@ -34,12 +34,24 @@ export async function POST(request) {
   );
   const formSource = d.formSource || (d.service ? `Formulario: ${d.service}` : "Portal Inmobiliario");
 
+  // Preparar mensaje completo si viene del formulario de plan de pago a medida
+  let finalMessage = d.message || "";
+  if (d.budget || d.purpose || d.location || d.paymentVision) {
+    const parts = [];
+    if (d.budget) parts.push(`Presupuesto: ${d.budget}`);
+    if (d.purpose) parts.push(`Objetivo: ${d.purpose}`);
+    if (d.location) parts.push(`Ubicación deseada: ${d.location}`);
+    if (d.paymentVision) parts.push(`Plan propuesto por el cliente: ${d.paymentVision}`);
+    if (d.message) parts.push(`Comentarios: ${d.message}`);
+    finalMessage = parts.join(" | ");
+  }
+
   // 1. Guardar en Base de Datos PostgreSQL si está configurada
   if (process.env.DATABASE_URL) {
     try {
       const sql = database();
       await sql`INSERT INTO real_estate.leads(name, email, phone, message, property_id)
-        VALUES (${d.name}, ${d.email || null}, ${d.phone}, ${d.message || ''}, ${d.propertyId || null}::uuid)`;
+        VALUES (${d.name}, ${d.email || null}, ${d.phone}, ${finalMessage}, ${d.propertyId || null}::uuid)`;
     } catch (dbErr) {
       console.warn("[Leads API] Error guardando en BD principal:", dbErr.message);
     }
@@ -56,7 +68,7 @@ export async function POST(request) {
         telefono: d.phone,
         email: d.email || "",
         servicio: d.service || "Bienes Raíces",
-        mensaje: d.message || "",
+        mensaje: finalMessage,
         tipo_cliente: clientType,
         origen: formSource,
       }),
@@ -71,11 +83,28 @@ export async function POST(request) {
       clientEmail: d.email,
       clientType: clientType,
       formSource: formSource,
-      message: d.message,
+      message: finalMessage,
       projectOrProperty: d.service || "",
+      customDetails: {
+        budget: d.budget,
+        purpose: d.purpose,
+        location: d.location,
+        paymentVision: d.paymentVision
+      }
     });
   } catch (mailErr) {
     console.warn("[Leads API] Error enviando correo al agente:", mailErr.message);
+  }
+
+  // 4. Enviar correo de confirmación al cliente (si proporcionó correo)
+  if (d.email) {
+    import("@/lib/mailer.mjs").then(({ sendClientConfirmationEmail }) => {
+      sendClientConfirmationEmail({
+        clientEmail: d.email,
+        clientName: d.name,
+        projectName: d.service || "su solicitud de plan de pago"
+      }).catch(err => console.warn("[Leads API] Error enviando confirmación cliente:", err.message));
+    }).catch(() => {});
   }
 
   return Response.json({ ok: true, tipo_cliente: clientType }, { status: 201 });
