@@ -349,19 +349,22 @@ export default async function ProyectoDetalle({ params }) {
               );
             }
 
-            // 5. DISTANCIAS & ENTORNO
+            // 5. DISTANCIAS & ENTORNO - LISTA ELEGANTE
             if (b.type === "distancias") {
               return (
                 <section key={b.id || bIdx} id="ubicacion" className="proy-section">
                   <h3 className="proy-section-title">{b.title}</h3>
-                  <div className="proy-distances-grid">
+                  <div className="proy-distances-list">
                     {(b.points || []).map((pt, i) => (
-                      <div key={i} className="distance-card">
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }} className="dist-place">
-                          <Compass size={16} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
-                          <span>{pt.place}</span>
+                      <div key={i} className="distance-list-item">
+                        <div className="dist-list-left">
+                          <span className="dist-icon-dot">
+                            <Compass size={16} style={{ color: "var(--navy, #1A3A52)" }} />
+                          </span>
+                          <span className="dist-list-name">{pt.place}</span>
                         </div>
-                        <strong className="dist-time">{pt.time}</strong>
+                        <span className="dist-list-divider" />
+                        <span className="dist-list-time">{pt.time}</span>
                       </div>
                     ))}
                   </div>
@@ -814,32 +817,61 @@ export default async function ProyectoDetalle({ params }) {
           line-height: 1.4;
         }
 
-        /* DISTANCES */
-        .proy-distances-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        /* DISTANCES & POINTS OF INTEREST - LIST FORMAT */
+        .proy-distances-list {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          background: #FFFFFF;
+          border: 1px solid var(--line, #E5E7EB);
+          border-radius: 12px;
+          padding: 16px 20px;
+        }
+        .distance-list-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+          border-bottom: 1px solid #F1F5F9;
+        }
+        .distance-list-item:last-child {
+          border-bottom: none;
+        }
+        .dist-list-left {
+          display: flex;
+          align-items: center;
           gap: 12px;
         }
-        .distance-card {
+        .dist-icon-dot {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          background: #fff;
-          border: 1px solid var(--line, #E5E7EB);
-          border-radius: 10px;
-          padding: 12px 16px;
-          font-size: 0.88rem;
+          justify-content: center;
+          flex-shrink: 0;
         }
-        .dist-place {
-          display: flex;
-          align-items: center;
-          gap: 8px;
+        .dist-list-name {
+          font-size: 0.92rem;
           color: var(--navy, #1A3A52);
-          font-weight: 500;
+          font-weight: 600;
         }
-        .dist-time {
-          color: var(--green, #4A9B6F);
+        .dist-list-divider {
+          flex: 1;
+          border-bottom: 1px dashed #CBD5E1;
+          margin: 0 16px;
+          height: 1px;
+        }
+        .dist-list-time {
+          font-size: 0.88rem;
           font-weight: 700;
+          color: #0D9488;
+          background: #E8F4EF;
+          padding: 4px 10px;
+          border-radius: 6px;
+          white-space: nowrap;
         }
 
         /* GALLERY */
