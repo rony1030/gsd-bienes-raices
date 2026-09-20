@@ -409,30 +409,58 @@ export default async function ProyectoDetalle({ params }) {
           {/* OTROS PROYECTOS RECOMENDADOS */}
           {otros.length > 0 && (
             <section className="proy-section proy-otros">
-              <h3 className="proy-section-title">Otros Desarrollos en Catálogo</h3>
+              <div className="proy-section-header" style={{ marginBottom: "1.25rem" }}>
+                <span className="eyebrow" style={{ color: "var(--green, #4A9B6F)" }}>Explora Opciones</span>
+                <h3 className="proy-section-title" style={{ margin: "4px 0 0" }}>Otros Desarrollos en Catálogo</h3>
+              </div>
               <div className="proy-otros-grid">
                 {otros.map((o) => (
                   <Link key={o.slug} href={`/proyectos/${o.slug}`} className="proy-otro-card">
-                    <div className="proy-otro-img">
+                    <div className="proy-otro-media">
                       <Image
                         src={o.cover_image}
                         alt={o.nombre}
                         fill
                         unoptimized={o.cover_image.startsWith("http")}
-                        sizes="100px"
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         style={{ objectFit: "cover" }}
                       />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <span style={{ fontSize: "11px", color: "var(--gray, #6b7280)", display: "block" }}>
-                        {o.ubicacion}
-                      </span>
-                      <strong style={{ color: "var(--navy, #1A3A52)", fontSize: "14px" }}>{o.nombre}</strong>
-                      <span style={{ display: "block", fontSize: "12.5px", color: "var(--green, #4A9B6F)", fontWeight: "600", marginTop: 2 }}>
-                        Desde {fmt(o.precio_desde)}
+                      <span className="proy-otro-badge">
+                        {o.estado || "Disponible"}
                       </span>
                     </div>
-                    <ArrowUpRight size={16} style={{ color: "var(--gray)" }} />
+
+                    <div className="proy-otro-body">
+                      <div className="proy-otro-loc">
+                        <MapPin size={13} style={{ color: "#0D9488", flexShrink: 0 }} />
+                        <span>{o.ubicacion}</span>
+                      </div>
+                      <h4 className="proy-otro-title">{o.nombre}</h4>
+
+                      {o.tipologias && o.tipologias.length > 0 && (
+                        <div className="proy-otro-chips">
+                          {o.tipologias.slice(0, 2).map((tip, idx) => (
+                            <span key={idx} className="proy-otro-chip">
+                              {tip}
+                            </span>
+                          ))}
+                          <span className="proy-otro-chip">
+                            Entrega {o.entrega || "2026"}
+                          </span>
+                        </div>
+                      )}
+
+                      <div className="proy-otro-footer">
+                        <div>
+                          <span className="proy-otro-price-label">Desde</span>
+                          <span className="proy-otro-price">{fmt(o.precio_desde)}</span>
+                        </div>
+                        <span className="proy-otro-link-btn">
+                          Ver detalles
+                          <ArrowUpRight size={15} />
+                        </span>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </div>
@@ -895,34 +923,131 @@ export default async function ProyectoDetalle({ params }) {
           .proy-gallery-item.featured { grid-column: span 1; }
         }
 
-        /* OTROS */
+        /* OTROS PROYECTOS MODERN CARD GRID */
         .proy-otros-grid {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 1.25rem;
+          margin-top: 1rem;
         }
         .proy-otro-card {
           display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: 12px 16px;
-          border-radius: 12px;
-          border: 1px solid var(--line, #E5E7EB);
+          flex-direction: column;
+          background: #FFFFFF;
+          border-radius: 16px;
+          border: 1px solid #E2E8F0;
+          overflow: hidden;
           text-decoration: none;
-          background: #fff;
-          transition: background 0.15s, border-color 0.15s;
+          box-shadow: 0 4px 20px rgba(26, 58, 82, 0.05);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
         .proy-otro-card:hover {
-          background: #F8FAFC;
-          border-color: var(--navy, #1A3A52);
+          transform: translateY(-4px);
+          box-shadow: 0 14px 30px rgba(26, 58, 82, 0.12);
+          border-color: #0D9488;
         }
-        .proy-otro-img {
+        .proy-otro-media {
           position: relative;
-          width: 80px;
-          height: 60px;
-          border-radius: 8px;
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          background: #F1F5F9;
           overflow: hidden;
-          flex-shrink: 0;
+        }
+        .proy-otro-card:hover .proy-otro-media img {
+          transform: scale(1.05);
+        }
+        .proy-otro-media img {
+          transition: transform 0.35s ease;
+        }
+        .proy-otro-badge {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(255, 255, 255, 0.94);
+          backdrop-filter: blur(6px);
+          color: #0D9488;
+          font-size: 0.72rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          padding: 4px 10px;
+          border-radius: 20px;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+          z-index: 2;
+        }
+        .proy-otro-body {
+          padding: 1.1rem 1.25rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+        .proy-otro-loc {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 0.78rem;
+          color: #64748B;
+          font-weight: 500;
+          margin-bottom: 0.35rem;
+        }
+        .proy-otro-title {
+          font-size: 1.15rem;
+          font-weight: 800;
+          color: #1A3A52;
+          margin: 0 0 0.65rem 0;
+          line-height: 1.3;
+        }
+        .proy-otro-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+          margin-bottom: 1.1rem;
+        }
+        .proy-otro-chip {
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: #475569;
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          padding: 3px 8px;
+          border-radius: 6px;
+        }
+        .proy-otro-footer {
+          margin-top: auto;
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          padding-top: 0.9rem;
+          border-top: 1px solid #F1F5F9;
+        }
+        .proy-otro-price-label {
+          display: block;
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: #64748B;
+          font-weight: 600;
+          line-height: 1;
+          margin-bottom: 2px;
+        }
+        .proy-otro-price {
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #1A3A52;
+          letter-spacing: -0.2px;
+        }
+        .proy-otro-link-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-size: 0.82rem;
+          font-weight: 700;
+          color: #0D9488;
+          transition: transform 0.15s ease, color 0.15s ease;
+        }
+        .proy-otro-card:hover .proy-otro-link-btn {
+          color: #0F766E;
+          transform: translateX(3px);
         }
 
         /* STICKY SIDEBAR CARD */
