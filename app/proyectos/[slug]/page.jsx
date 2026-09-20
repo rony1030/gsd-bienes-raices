@@ -575,33 +575,47 @@ export default async function ProyectoDetalle({ params }) {
           padding: 5px 12px;
         }
 
-        /* SUB-NAV */
+        /* SUB-NAV - LUXURY PILLS / TABS */
         .proy-subnav-bar {
-          background: #fff;
-          border-bottom: 1px solid var(--line, #E5E7EB);
+          background: rgba(255, 255, 255, 0.96);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-bottom: 1px solid #E2E8F0;
           position: sticky;
           top: 0;
           z-index: 40;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+          box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.04);
         }
         .proy-subnav-inner {
           display: flex;
-          gap: 1.5rem;
+          align-items: center;
+          gap: 6px;
           overflow-x: auto;
           white-space: nowrap;
-          padding-top: 0.8rem;
-          padding-bottom: 0.8rem;
+          padding: 10px 0;
           scrollbar-width: none;
         }
         .proy-subnav-inner::-webkit-scrollbar { display: none; }
         .proy-nav-link {
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: var(--gray, #6B7280);
+          font-size: 0.82rem;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          color: #475569;
           text-decoration: none;
-          transition: color 0.15s;
+          padding: 7px 15px;
+          border-radius: 6px;
+          background: transparent;
+          border: 1px solid transparent;
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .proy-nav-link:hover { color: var(--navy, #1A3A52); }
+        .proy-nav-link:hover {
+          color: var(--navy, #1A3A52);
+          background: #F1F5F9;
+          border-color: #E2E8F0;
+        }
+        .proy-nav-link:active {
+          background: #E2E8F0;
+        }
 
         /* LAYOUT */
         .proy-layout {
