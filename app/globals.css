@@ -2543,3 +2543,217 @@ footer {
   }
 }
 
+/* =========================================================
+   PROJECT LEAD CARD & ASSISTANT FORM (ESTILO CORPORATIVO)
+   ========================================================= */
+.lead-card-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px -8px rgba(26, 58, 82, 0.08);
+  position: sticky;
+  top: 72px;
+}
+
+.lead-card-price-block {
+  border-bottom: 1px solid #F1F5F9;
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+}
+.lead-card-price-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #0284C7;
+  text-transform: uppercase;
+  display: block;
+}
+.lead-card-price-val {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1A3A52;
+  margin-top: 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.lead-card-price-val small {
+  font-size: 13px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.lead-card-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+.lead-spec-item {
+  display: flex;
+  flex-direction: column;
+}
+.lead-spec-item .spec-k {
+  font-size: 10.5px;
+  color: #64748B;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.lead-spec-item .spec-v {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A3A52;
+  margin-top: 1px;
+}
+
+/* AGENTE CON FOTO */
+.lead-card-agent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 16px;
+}
+.agent-avatar-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #E2E8F0;
+  flex-shrink: 0;
+}
+.agent-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.agent-info {
+  display: flex;
+  flex-direction: column;
+}
+.agent-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1A3A52;
+}
+.agent-role {
+  font-size: 11.5px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+/* FORMULARIO */
+.lead-form-inner {
+  display: flex;
+  flex-direction: column;
+}
+.lead-form-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A3A52;
+  margin-bottom: 4px;
+}
+.lead-form-desc {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+.lead-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lead-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.lead-input-group label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #334155;
+}
+.lead-input-group input,
+.lead-input-group textarea {
+  width: 100%;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  color: #1E293B;
+  background: #FFFFFF;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.lead-input-group input:focus,
+.lead-input-group textarea:focus {
+  outline: none;
+  border-color: #0284C7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+.lead-input-group textarea {
+  resize: vertical;
+  min-height: 65px;
+}
+
+.lead-submit-btn {
+  background: #0D9488;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+}
+.lead-submit-btn:hover {
+  background: #0F766E;
+  transform: translateY(-1px);
+}
+.lead-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.lead-wp-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #2F6B4A;
+  background: #E8F4EF;
+  border: 1px solid #C6E2D5;
+  border-radius: 8px;
+  padding: 9px 12px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.lead-wp-btn:hover {
+  background: #D9ECE3;
+  color: #1E4E34;
+}
+
+.lead-feedback {
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 6px;
+  text-align: center;
+}
+.lead-feedback.success { color: #0D9488; }
+.lead-feedback.error { color: #E11D48; }
+
+

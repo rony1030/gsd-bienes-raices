@@ -825,3 +825,162 @@ export function ContactForm({ property }) {
     </form>
   );
 }
+
+export function ProjectLeadCard({ project, formattedPrice }) {
+  const [state, setState] = useState("idle");
+  const [feedback, setFeedback] = useState("");
+
+  async function submit(e) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setState("sending");
+    setFeedback("");
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.get("name"),
+          phone: data.get("phone"),
+          email: data.get("email"),
+          message: data.get("message") || `Interés en proyecto ${project?.nombre || ""}`,
+          service: `Proyecto: ${project?.nombre || "Inmobiliario"}`
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error);
+      setState("success");
+      setFeedback("¡Gracias! Un asesor se comunicará contigo de inmediato.");
+      form.reset();
+    } catch (error) {
+      setState("error");
+      setFeedback(error.message || "No se pudo enviar. Inténtalo de nuevo.");
+    }
+  }
+
+  const wpMsg = encodeURIComponent(
+    `Hola Esteban, me interesa solicitar asistencia y disponibilidad para el proyecto ${project?.nombre || ""}.`
+  );
+
+  return (
+    <div className="lead-card-box">
+      {/* PRECIO */}
+      <div className="lead-card-price-block">
+        <span className="lead-card-price-label">PRECIO</span>
+        <div className="lead-card-price-val">
+          <small>Desde</small> <strong>{formattedPrice}</strong>
+        </div>
+      </div>
+
+      {/* METRICAS RAPIDAS */}
+      <div className="lead-card-specs-grid">
+        <div className="lead-spec-item">
+          <span className="spec-k">Entrega</span>
+          <span className="spec-v">{project?.entrega || "2026"}</span>
+        </div>
+        <div className="lead-spec-item">
+          <span className="spec-k">Ubicación</span>
+          <span className="spec-v">{project?.ubicacion?.split(",")[0] || "Punta Cana"}</span>
+        </div>
+        <div className="lead-spec-item">
+          <span className="spec-k">Estado</span>
+          <span className="spec-v">{project?.estado || "En planos"}</span>
+        </div>
+        <div className="lead-spec-item">
+          <span className="spec-k">Ley Confotur</span>
+          <span className="spec-v">15 Años Exento</span>
+        </div>
+      </div>
+
+      {/* ASESOR INMOBILIARIO CON FOTO */}
+      <div className="lead-card-agent">
+        <div className="agent-avatar-wrap">
+          <img 
+            src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=240&q=80" 
+            alt="Esteban Mejía" 
+            className="agent-avatar-img"
+          />
+        </div>
+        <div className="agent-info">
+          <strong className="agent-name">Esteban Mejía</strong>
+          <span className="agent-role">Asesor Inmobiliario & Jurídico</span>
+        </div>
+      </div>
+
+      {/* FORMULARIO DE ASISTENCIA */}
+      <div className="lead-form-inner">
+        <h4 className="lead-form-title">Solicitar Asistencia</h4>
+        <p className="lead-form-desc">
+          Completa el formulario y un asesor de nuestro equipo se pondrá en contacto contigo.
+        </p>
+
+        <form onSubmit={submit} className="lead-form-fields">
+          <div className="lead-input-group">
+            <label>Nombre y Apellido *</label>
+            <input 
+              name="name" 
+              placeholder="Ej. Carlos Martínez" 
+              required 
+              disabled={state === "sending"}
+            />
+          </div>
+
+          <div className="lead-input-group">
+            <label>Teléfono / WhatsApp *</label>
+            <input 
+              name="phone" 
+              type="tel" 
+              placeholder="Ej. +1 (809) 000-0000" 
+              required 
+              disabled={state === "sending"}
+            />
+          </div>
+
+          <div className="lead-input-group">
+            <label>Correo Electrónico (Opcional)</label>
+            <input 
+              name="email" 
+              type="email" 
+              placeholder="tu@correo.com" 
+              disabled={state === "sending"}
+            />
+          </div>
+
+          <div className="lead-input-group">
+            <label>Mensaje (Opcional)</label>
+            <textarea 
+              name="message" 
+              rows={3}
+              placeholder={`Hola, me interesa obtener más información sobre el proyecto ${project?.nombre || ""}.`}
+              defaultValue={`Hola, me interesa obtener más información sobre el proyecto ${project?.nombre || ""}.`}
+              disabled={state === "sending"}
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            className="lead-submit-btn"
+            disabled={state === "sending"}
+          >
+            {state === "sending" ? "ENVIANDO..." : state === "success" ? "✓ SOLICITUD ENVIADA" : "➤ SOLICITAR ASISTENCIA"}
+          </button>
+
+          {feedback && (
+            <p className={`lead-feedback ${state}`}>{feedback}</p>
+          )}
+        </form>
+
+        <a 
+          href={`https://wa.me/18294937254?text=${wpMsg}`} 
+          target="_blank" 
+          rel="noreferrer"
+          className="lead-wp-btn"
+        >
+          <PhoneCall size={14} /> Contactar directo por WhatsApp
+        </a>
+      </div>
+    </div>
+  );
+}
+

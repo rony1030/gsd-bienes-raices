@@ -9,6 +9,7 @@ import {
   Briefcase, Users, Flower2
 } from "lucide-react";
 import { getProjects } from "@/lib/db.mjs";
+import { ProjectLeadCard } from "@/components/site.jsx";
 
 export const dynamic = "force-dynamic";
 
@@ -430,79 +431,9 @@ export default async function ProyectoDetalle({ params }) {
 
         </article>
 
-        {/* STICKY INVESTMENT SIDEBAR */}
+        {/* STICKY INVESTMENT SIDEBAR CON FORMULARIO & FOTO AGENTE */}
         <aside className="proy-sidebar">
-          <div className="proy-sidebar-card">
-            
-            <div className="proy-sidebar-header">
-              <span className="sidebar-eyebrow">Inversión Inmobiliaria</span>
-              <div className="proy-sidebar-price">
-                <small>Desde</small>
-                <strong>{fmt(p.precio_desde)}</strong>
-                <span className="price-currency">{p.moneda || "USD"}</span>
-              </div>
-            </div>
-
-            <div className="proy-sidebar-specs">
-              <div className="spec-row">
-                <span className="k">Promotor</span>
-                <span className="v">{p.promotor}</span>
-              </div>
-              <div className="spec-row">
-                <span className="k">Ubicación</span>
-                <span className="v">{p.ubicacion}</span>
-              </div>
-              <div className="spec-row">
-                <span className="k">Estado</span>
-                <span className="v">{p.estado}</span>
-              </div>
-              <div className="spec-row">
-                <span className="k">Entrega</span>
-                <span className="v">{p.entrega}</span>
-              </div>
-              <div className="spec-row">
-                <span className="k">Tipologías</span>
-                <span className="v">{Array.isArray(p.tipologias) ? p.tipologias.join(", ") : p.tipologias}</span>
-              </div>
-            </div>
-
-            <div className="proy-sidebar-guarantee">
-              <ShieldCheck size={18} style={{ color: "var(--green, #4A9B6F)", flexShrink: 0 }} />
-              <div>
-                <b>Blindaje Jurídico GSD</b>
-                <p>Auditoría de títulos y contratos por expertos en derecho inmobiliario.</p>
-              </div>
-            </div>
-
-            <div className="proy-sidebar-actions">
-              <a 
-                href={`https://wa.me/18294937254?text=${wpMessage}`}
-                target="_blank" 
-                rel="noreferrer"
-                className="button dark full-width"
-                style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}
-              >
-                <Phone size={15} /> Contactar por WhatsApp
-              </a>
-
-              <Link 
-                href="/#contacto" 
-                className="button secondary full-width"
-                style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginTop: "8px" }}
-              >
-                <Download size={15} /> Solicitar Brochure PDF
-              </Link>
-            </div>
-
-            <div className="proy-advisor-pill">
-              <div className="advisor-avatar">EM</div>
-              <div>
-                <b style={{ fontSize: "12px", color: "var(--navy)" }}>Esteban Mejía</b>
-                <span style={{ fontSize: "11px", color: "var(--gray)", display: "block" }}>Broker & Asesor Legal GSD</span>
-              </div>
-            </div>
-
-          </div>
+          <ProjectLeadCard project={p} formattedPrice={fmt(p.precio_desde)} />
         </aside>
 
       </div>
